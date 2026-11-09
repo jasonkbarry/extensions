@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NCC Token Grabber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="crumb" href="./">← All extensions</a>
+  <header>
+    <div class="eyebrow">Chrome extension · v1.0.0</div>
+    <h1>NCC Token Grabber</h1>
+    <p class="lede">Reads the NCC/Thrio session token from the tab you have open and copies it, with your tenant info, to your clipboard.</p>
+  </header>
+  <div class="card">
+    <div class="meta"><span class="file">ncc-token-grabber-1.0.0.zip · 12 KB</span></div>
+    <div class="btns"><a class="btn" href="ncc-token-grabber-1.0.0.zip" download>Download</a></div>
+  </div>
+  <section>
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>ncc-token-grabber</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
+      <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
+      <li><div>Click <strong>Load unpacked</strong> and choose the <code>ncc-token-grabber</code> folder.</div></li>
+      <li><div>Click the puzzle-piece icon in the toolbar and pin <strong>NCC Token Grabber</strong> so it's easy to reach.</div></li>
+    </ol>
+  </section>
+  <section>
+    <h2>Use</h2>
+    <ul class="list">
+      <li>Open your NCC (thrio.io) tab and sign in as usual.</li>
+      <li>Click the <strong>NCC Token Grabber</strong> toolbar icon. It reads the token from that tab and copies a bundle — tenant name, tenant ID, cluster, URL and token — to your clipboard.</li>
+      <li>Click <strong>Show</strong> to see the bundle before pasting it.</li>
+    </ul>
+  </section>
+  <p class="note">The token is your own live session token, the same one your browser already sends to NCC. It is read only when you click the icon, stays on your clipboard, and is not sent anywhere. Treat it like a password: it grants access to your NCC session until it expires, so only paste it where you mean to, and don't share it with anyone you wouldn't give your sign-in to.</p>
+  <section>
+    <h2>Updating</h2>
+    <p class="note">Download the new zip, extract it, and copy its files over your existing folder. Then click the reload arrow on the extension in <code>chrome://extensions</code>.</p>
+  </section>
+  <footer>Works in Google Chrome and Microsoft Edge.</footer>
+</div>
+</body>
+</html>
