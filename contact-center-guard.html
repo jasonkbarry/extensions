@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Center Guard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="crumb" href="./">← All extensions</a>
+  <header>
+    <div class="eyebrow">Chrome extension · v1.6</div>
+    <h1>Contact Center Guard</h1>
+    <p class="lede">Protects calls on the Nextiva Contact Center agent screen.</p>
+  </header>
+  <div class="card">
+    <div class="meta"><span class="file">contact-center-guard-1.6.zip · 6 KB</span></div>
+    <div class="btns"><a class="btn" href="contact-center-guard-1.6.zip" download>Download</a></div>
+  </div>
+  <section>
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>contact-center-guard</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
+      <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
+      <li><div>Click <strong>Load unpacked</strong> and choose the <code>contact-center-guard</code> folder.</div></li>
+      <li><div>Check that <strong>Contact Center Guard</strong> is turned on. It has no toolbar button; it works on its own on the agent screen.</div></li>
+    </ol>
+  </section>
+  <section>
+    <h2>What it does</h2>
+    <ul class="list">
+      <li><strong>Back:</strong> always blocked on the agent screen (toolbar Back, Alt+Left, mouse back button), with a popup explaining why.</li>
+      <li><strong>Refresh:</strong> F5 or Ctrl+R shows a warning first. Press it again within a minute to refresh anyway.</li>
+      <li><strong>Callbacks:</strong> on an Outbound Call / In review, choosing a disposition first shows a reminder to call the customer back. Try again to continue without calling.</li>
+    </ul>
+  </section>
+  <p class="note">Closing the tab, typing a new address and Chrome's toolbar Reload button are not blocked. If you also have Callback Disposition Guard installed, turn it off; this extension includes its callback reminder.</p>
+  <section>
+    <h2>Updating</h2>
+    <p class="note">Download the new zip, extract it, and copy its files over your existing folder. Then click the reload arrow on the extension in <code>chrome://extensions</code>.</p>
+  </section>
+  <footer>Works in Google Chrome and Microsoft Edge.</footer>
+</div>
+</body>
+</html>
