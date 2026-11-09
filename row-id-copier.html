@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Row ID Copier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="crumb" href="./">← All extensions</a>
+  <header>
+    <div class="eyebrow">Chrome extension · v1.0.0</div>
+    <h1>Row ID Copier</h1>
+    <p class="lede">Copies the identifier from the row you have selected on the page, straight to your clipboard.</p>
+  </header>
+  <div class="card">
+    <div class="meta"><span class="file">row-id-copier-1.0.0.zip · 4 KB</span></div>
+    <div class="btns"><a class="btn" href="row-id-copier-1.0.0.zip" download>Download</a></div>
+  </div>
+  <section>
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>row-id-copier</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
+      <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
+      <li><div>Click <strong>Load unpacked</strong> and choose the <code>row-id-copier</code> folder.</div></li>
+      <li><div>Click the puzzle-piece icon in the toolbar and pin <strong>Row ID Copier</strong> so it's easy to reach.</div></li>
+    </ol>
+  </section>
+  <section>
+    <h2>Use</h2>
+    <ul class="list">
+      <li>Select a row on the page, then click the <strong>Row ID Copier</strong> toolbar icon, or press <strong>Ctrl+Q</strong>.</li>
+      <li>The row's identifier is copied to your clipboard, and a small confirmation shows what was copied.</li>
+      <li>If it copies the wrong value, right-click the icon and open <strong>Options</strong> to point it at the right column.</li>
+    </ul>
+  </section>
+  <p class="note">By default it reads the first column of the selected row. In Options you can choose the column by position, by header name, by a custom selector, or from a row attribute.</p>
+  <section>
+    <h2>Updating</h2>
+    <p class="note">Download the new zip, extract it, and copy its files over your existing folder. Then click the reload arrow on the extension in <code>chrome://extensions</code>.</p>
+  </section>
+  <footer>Works in Google Chrome and Microsoft Edge.</footer>
+</div>
+</body>
+</html>
