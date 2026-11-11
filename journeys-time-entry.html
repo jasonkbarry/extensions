@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journeys Time Entry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .tablewrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+  h3 { font-size: 17px; margin: 18px 0 10px; }
+  section p { margin: 0 0 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="crumb" href="./">← All extensions</a>
+  <header>
+    <div class="eyebrow">Chrome extension · v1.7</div>
+    <h1>Journeys Time Entry</h1>
+    <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. You can also copy billable entries to the Burn Down Record sheet.</p>
+  </header>
+  <div class="card">
+    <div class="meta"><span class="file">journeys-time-entry-1.7.zip · 39 KB</span></div>
+    <div class="btns">
+      <a class="btn" href="journeys-time-entry-1.7.zip" download>Download</a>
+      <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>journeys-time-entry</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
+      <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
+      <li><div>Click <strong>Load unpacked</strong> and choose the <code>journeys-time-entry</code> folder.</div></li>
+      <li><div>Pin <strong>Journeys Time Entry</strong> from the puzzle-piece menu. Make sure you're signed in to <code>onboarding.nextiva.com</code> in Chrome.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Set up your customers</h2>
+    <ol class="steps">
+      <li><div>In Journeys, open a customer's <strong>post-onboarding board</strong> and copy the URL from the address bar (<code>…/accounts/…/projects/…/post-onboarding</code>).</div></li>
+      <li><div>In the extension, click <strong>⚙</strong>, paste the URL under <strong>Add a board</strong>, and click <strong>Add</strong>. The customer name fills in automatically.</div></li>
+      <li><div>Click <strong>Activities: 0 selected ▸</strong> and tick the cards you log time to. Cards from any column can be picked, and none are ticked by default.</div></li>
+    </ol>
+    <p class="note">Admin categories come from your pinned rows on the Journeys <strong>Timesheet</strong> page.</p>
+  </section>
+
+  <section>
+    <h2>Use</h2>
+    <ul class="list">
+      <li>Choose <strong>Project</strong> and a customer, or <strong>Admin</strong>, then type hours in the grid. Use ‹ › to change weeks.</li>
+      <li>Your existing entries show in <strong>green</strong>. New or changed cells show in <strong>blue</strong>. Clearing a green cell marks it <strong>red</strong>, to be deleted.</li>
+      <li><strong>Submit</strong> sends only the changes: it creates new entries, updates changed hours, and deletes cleared entries after asking you to confirm.</li>
+      <li>Each row has a comment box and a <strong>BILLABLE / NON-BILL</strong> toggle, both for new entries. Project time is always category Technical. Admin time is always non-billable.</li>
+      <li>Cells with more than one entry show a number badge and are read-only; edit those in Journeys.</li>
+      <li>A reminder appears every Wednesday at 4 PM, because time is due at 7 PM.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Optional: Burn Down Record sheet</h2>
+    <p>For every <strong>billable</strong> entry the extension creates, it can add a row to your tab in the Burn Down Record, on the first row with an empty Customer Name. It writes through a small Google Apps Script web app that you create under your own Google account.</p>
+    <div class="tablewrap"><table>
+      <tr><th>Column</th><th>Written value</th></tr>
+      <tr><td>B</td><td>Customer name (set per customer in ⚙)</td></tr>
+      <tr><td>C</td><td>Customer account number</td></tr>
+      <tr><td>D / E</td><td>Date and hours of the entry</td></tr>
+      <tr><td>G</td><td>CSP level (Standard / Advanced / Signature - TAM)</td></tr>
+      <tr><td>H / I</td><td>Allotted hours, bucket of hours</td></tr>
+      <tr><td>A, F, J–M</td><td>Not touched. Burn Down ID, Total and the other formula columns stay as they are.</td></tr>
+    </table></div>
+
+    <h3>Create the web app (one time)</h3>
+    <ol class="steps">
+      <li><div>Go to <code>script.google.com</code>, signed in with the account that can <strong>edit</strong> the Burn Down Record, and click <strong>New project</strong>.</div></li>
+      <li><div>Press <strong>Ctrl+A</strong> and <strong>Delete</strong> to remove the starter <code>myFunction</code> code, so the editor is completely empty. Paste in all of <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and save.</div></li>
+      <li><div>Set <code>SHEET_ID</code> at the top to the long ID in the sheet's URL (<code>docs.google.com/spreadsheets/d/<strong>SHEET_ID</strong>/edit</code>), then save.</div></li>
+      <li><div>Click <strong>Deploy → New deployment</strong>. Click the gear icon, choose <strong>Web app</strong>, and set <strong>Execute as: Me</strong> and <strong>Who has access: Only myself</strong>. Click <strong>Deploy</strong>, then <strong>Authorize access</strong>. If you see "Google hasn't verified this app", click <strong>Advanced → Go to (project)</strong>, then <strong>Allow</strong>.</div></li>
+      <li><div>Copy the <strong>Web app URL</strong>, which ends in <code>/exec</code>. It's also under <strong>Deploy → Manage deployments</strong>. Open it once in Chrome; you should see <code>{"ok":true,…}</code>.</div></li>
+    </ol>
+
+    <h3>Connect the extension</h3>
+    <ol class="steps">
+      <li><div>Click <strong>⚙</strong>, go to <strong>Burn Down sheet</strong>, and paste the URL. Enter your <strong>Tab name</strong> exactly as it appears in the sheet. Click <strong>Save &amp; test</strong>.</div></li>
+      <li><div>For each customer, fill in <strong>Sheet customer name</strong>, <strong>Account #</strong>, <strong>CSP level</strong>, <strong>Allotted</strong> and <strong>Bucket</strong>. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
+    </ol>
+    <p class="note">If a sheet write fails, your Journeys entries are still saved, and the rows wait in a <strong>Retry now</strong> bar. Changing or deleting an existing billable entry doesn't change the sheet; update those rows by hand.</p>
+
+    <h3>Changing the script later</h3>
+    <p class="note">Paste the new code and save. Then go to <strong>Deploy → Manage deployments → ✏ → Version: New version → Deploy</strong>. That keeps the same <code>/exec</code> URL, so nothing changes in the extension. A <em>New deployment</em> would create a new URL, which you'd have to paste into ⚙ again. Optional: set <code>TOKEN</code> in the script, redeploy, and enter the same value in the extension's <strong>Token</strong> field.</p>
+  </section>
+
+  <section>
+    <h2>Troubleshooting</h2>
+    <div class="tablewrap"><table>
+      <tr><th>Message</th><th>Fix</th></tr>
+      <tr><td>Google sign-in needed for the Burn Down web app</td><td>Open the <code>/exec</code> URL in Chrome once. If you're signed in to several Google accounts, make the script's owner your default (first) account.</td></tr>
+      <tr><td>Tab not found</td><td>The Tab name in ⚙ must match the sheet tab exactly.</td></tr>
+      <tr><td>Unknown request after an update</td><td>Click the reload arrow on the extension in <code>chrome://extensions</code>.</td></tr>
+      <tr><td>Not signed in to Journeys</td><td>Sign in at onboarding.nextiva.com, then try again.</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Updating</h2>
+    <p class="note">Download the new zip, extract it, and copy its files over your existing <code>journeys-time-entry</code> folder. Keep the folder name so your boards and settings are kept. Then click the reload arrow on the extension in <code>chrome://extensions</code>. Full documentation is in <code>README.md</code> inside the folder.</p>
+  </section>
+  <footer>Works in Google Chrome and Microsoft Edge. All settings stay in your own Chrome profile.</footer>
+</div>
+</body>
+</html>
