@@ -20,14 +20,14 @@
 <div class="wrap">
   <a class="crumb" href="./">← All extensions</a>
   <header>
-    <div class="eyebrow">Chrome extension · v1.8</div>
+    <div class="eyebrow">Chrome extension · v2.5</div>
     <h1>Journeys Time Entry</h1>
-    <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. You can also copy billable entries to the Burn Down Record sheet.</p>
+    <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. It opens in Chrome's side panel, shows your billable and capacity percentages, and keeps your Burn Down Record sheet in step with Journeys.</p>
   </header>
   <div class="card">
-    <div class="meta"><span class="file">journeys-time-entry-1.8.zip · 40 KB</span></div>
+    <div class="meta"><span class="file">journeys-time-entry-2.5.zip · 49 KB</span></div>
     <div class="btns">
-      <a class="btn" href="journeys-time-entry-1.8.zip" download>Download</a>
+      <a class="btn" href="journeys-time-entry-2.5.zip" download>Download</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
   </div>
@@ -38,7 +38,7 @@
       <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>journeys-time-entry</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
       <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
       <li><div>Click <strong>Load unpacked</strong> and choose the <code>journeys-time-entry</code> folder.</div></li>
-      <li><div>Pin <strong>Journeys Time Entry</strong> from the puzzle-piece menu. Make sure you're signed in to <code>onboarding.nextiva.com</code> in Chrome.</div></li>
+      <li><div>Pin <strong>Journeys Time Entry</strong> from the puzzle-piece menu. Clicking it opens the extension in Chrome's <strong>side panel</strong>, which stays open while you switch tabs. Make sure you're signed in to <code>onboarding.nextiva.com</code> in Chrome. Requires Chrome 116 or newer.</div></li>
     </ol>
   </section>
 
@@ -60,7 +60,9 @@
       <li><strong>Submit</strong> sends only the changes: it creates new entries, updates changed hours, and deletes cleared entries after asking you to confirm.</li>
       <li>Each row has a comment box and a <strong>BILLABLE / NON-BILL</strong> toggle, both for new entries. Project time is always category Technical. Admin time is always non-billable.</li>
       <li>Cells with more than one entry show a number badge and are read-only; edit those in Journeys.</li>
+      <li>The header shows, for the week on screen: hours logged, <strong>billable %</strong> (billable ÷ hours logged, not counting FTO/holiday) and <strong>capacity %</strong> (billable ÷ expected). Expected is 6.4 h per business day up to today (32 h for a full week), minus FTO/holiday hours up to today. For example, on a Tuesday with 4 h of FTO, expected is 8.8 h. Hover over the header to see the math.</li>
       <li>A reminder appears every Wednesday at 4 PM, because time is due at 7 PM.</li>
+      <li>Drag the side panel's left edge to make it wider. When it's narrow, the grid scrolls sideways.</li>
     </ul>
   </section>
 
@@ -90,7 +92,23 @@
       <li><div>Click <strong>⚙</strong> and go to <strong>Burn Down sheet</strong>. Paste the Burn Down Record's address into <strong>Sheet link</strong>, and the <code>/exec</code> URL into <strong>Web app URL</strong>. Enter your <strong>Tab name</strong> exactly as it appears in the sheet. Click <strong>Save &amp; test</strong>.</div></li>
       <li><div>For each customer, fill in <strong>Sheet customer name</strong>, <strong>Account #</strong>, <strong>CSP level</strong>, <strong>Allotted</strong> and <strong>Bucket</strong>. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
     </ol>
-    <p class="note">If a sheet write fails, your Journeys entries are still saved, and the rows wait in a <strong>Retry now</strong> bar. Changing or deleting an existing billable entry doesn't change the sheet; update those rows by hand.</p>
+    <p class="note">If a sheet write fails, your Journeys entries are still saved, and the change waits in a <strong>Retry now</strong> bar. A row is never written without a valid date.</p>
+
+    <h3>Deletes and changes</h3>
+    <ul class="list">
+      <li><strong>Deleting</strong> a billable entry from the grid also sets the matching Burn Down row's hours (same customer, date and hours) to <strong>0</strong>. The row is kept, not deleted.</li>
+      <li><strong>Changing hours</strong> in the grid updates Journeys only. Use <strong>Sync</strong> to change both at once.</li>
+    </ul>
+
+    <h3>Sync</h3>
+    <p>In Project mode, choose a customer and click <strong>Sync</strong>. It shows that customer's <strong>billable</strong> Journeys entries (<b>J</b>) and Burn Down rows (<b>B</b>) <strong>grouped by day</strong>, with each day's totals for both, and matches entries within each day by hours. Use ‹ › to move between weeks.</p>
+    <div class="tablewrap"><table>
+      <tr><th>Line</th><th>What you can do</th></tr>
+      <tr><td>J + B (matched)</td><td>Change the hours and click <strong>Save</strong> to update both. <strong>Delete</strong> removes the Journeys entry and sets the Burn Down hours to 0.</td></tr>
+      <tr><td>J only</td><td><strong>+BurnDown</strong> adds it to the sheet. Change the hours and click <strong>Save</strong> to update Journeys. <strong>Delete</strong> removes it from Journeys.</td></tr>
+      <tr><td>B only</td><td>Pick an activity, add a comment, then <strong>+Journey</strong> logs it in Journeys as billable. Change the hours and click <strong>Save</strong> to update the sheet. <strong>Delete</strong> sets that row's hours to 0.</td></tr>
+    </table></div>
+    <p class="note">Every Delete needs a second click, on <strong>Confirm</strong>. Rows set to 0 h are ignored by Sync. Burn Down rows dated in the future can't be added to Journeys; fix those in the sheet.</p>
 
     <h3>Changing the script later</h3>
     <p class="note">Paste the new code and save. Then go to <strong>Deploy → Manage deployments → ✏ → Version: New version → Deploy</strong>. That keeps the same <code>/exec</code> URL, so nothing changes in the extension. A <em>New deployment</em> would create a new URL, which you'd have to paste into ⚙ again. Optional: set <code>TOKEN</code> in the script, redeploy, and enter the same value in the extension's <strong>Token</strong> field.</p>
@@ -102,6 +120,9 @@
       <tr><th>Message</th><th>Fix</th></tr>
       <tr><td>Google sign-in needed for the Burn Down web app</td><td>Open the <code>/exec</code> URL in Chrome once. If you're signed in to several Google accounts, make the script's owner your default (first) account.</td></tr>
       <tr><td>Illegal spreadsheet id or key: PASTE_SHEET_ID_HERE</td><td>Your Apps Script is from v1.7. Paste in the current <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Fill in <strong>Sheet link</strong> in ⚙.</td></tr>
+      <tr><td>Your Burn Down Apps Script is out of date</td><td>Sync, deletes and hour changes need script version 5. Paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>.</td></tr>
+      <tr><td>Skipped because it had no date</td><td>The entry had no valid date, so no row was written. Re-sync and add it again; if it keeps happening, report it.</td></tr>
+      <tr><td>Row changed in the sheet; sync again</td><td>Someone edited that row after Sync loaded. Click ↻ on the Sync page and try again.</td></tr>
       <tr><td>Can't open that sheet</td><td>Check <strong>Sheet link</strong> in ⚙, and that the Google account that owns the web app can edit the sheet.</td></tr>
       <tr><td>Tab not found</td><td>The Tab name in ⚙ must match the sheet tab exactly.</td></tr>
       <tr><td>Unknown request after an update</td><td>Click the reload arrow on the extension in <code>chrome://extensions</code>.</td></tr>
@@ -112,6 +133,7 @@
   <section>
     <h2>Updating</h2>
     <p class="note">Download the new zip, extract it, and copy its files over your existing <code>journeys-time-entry</code> folder. Keep the folder name so your boards and settings are kept. Then click the reload arrow on the extension in <code>chrome://extensions</code>. Full documentation is in <code>README.html</code> inside the folder.</p>
+    <p class="note"><strong>Coming from 1.8 or earlier?</strong> Also update the Apps Script: paste in the new <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> (version 5), save, and use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Your <code>/exec</code> URL stays the same. If you were on 1.7 or earlier, also fill in <strong>Sheet link</strong> in ⚙.</p>
   </section>
   <footer>Works in Google Chrome and Microsoft Edge. All settings stay in your own Chrome profile.</footer>
 </div>
