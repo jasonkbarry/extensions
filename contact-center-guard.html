@@ -18,10 +18,22 @@
   </header>
   <div class="card">
     <div class="meta"><span class="file">contact-center-guard-1.6.zip · 6 KB</span></div>
-    <div class="btns"><a class="btn" href="contact-center-guard-1.6.zip" download>Download</a></div>
+    <div class="btns"><a class="btn" href="Install-ContactCenterGuard.zip" download>Installer (Windows)</a> <a class="btn ghost" href="contact-center-guard-1.6.zip" download>Zip</a></div>
   </div>
   <section>
-    <h2>Install</h2>
+    <h2>Install or update with the installer (Windows)</h2>
+    <ol class="steps">
+      <li><div><strong>Option A:</strong> press <strong>Win+R</strong>, paste this line, and press <strong>Enter</strong>:
+        <pre class="cmdline" id="cmd-contact-center-guard">powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$x=&#x27;contact-center-guard&#x27;; irm https://jasonkbarry.github.io/extensions/install.txt | iex&quot;</pre>
+        <button class="btn ghost small" onclick="navigator.clipboard.writeText(document.getElementById('cmd-contact-center-guard').textContent);this.textContent='Copied';">Copy</button>
+        <br><strong>Option B:</strong> download <a href="Install-ContactCenterGuard.zip" download>Install-ContactCenterGuard.zip</a>, right-click it and choose <strong>Extract All</strong>, then double-click the <code>.cmd</code> file inside. If Windows warns you, click <strong>More info → Run anyway</strong>.</div></li>
+      <li><div><strong>First time:</strong> it installs to <code>%LOCALAPPDATA%\Nextiva Extensions\contact-center-guard</code>, copies that path to your clipboard, and opens <code>chrome://extensions</code>. Turn on <strong>Developer mode</strong> and click <strong>Load unpacked</strong>. In the folder window, click the address bar, press <strong>Ctrl+V</strong> then <strong>Enter</strong>, and click <strong>Select Folder</strong>.</div></li>
+      <li><div><strong>Updates:</strong> run it again. It finds where Contact Center Guard is already installed in Chrome or Edge, even a folder you chose yourself, and copies the new version there with your settings kept. Then click the reload arrow on <strong>Contact Center Guard</strong> in <code>chrome://extensions</code>.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Install manually</h2>
     <ol class="steps">
       <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>contact-center-guard</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
       <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
@@ -40,7 +52,7 @@
   <p class="note">Closing the tab, typing a new address and Chrome's toolbar Reload button are not blocked. If you also have Callback Disposition Guard installed, turn it off; this extension includes its callback reminder.</p>
   <section>
     <h2>Updating</h2>
-    <p class="note">Download the new zip, extract it, and copy its files over your existing folder. Then click the reload arrow on the extension in <code>chrome://extensions</code>.</p>
+    <p class="note"><strong>Easiest:</strong> run the installer again (Win+R command or zip above), then click the reload arrow in <code>chrome://extensions</code>. Or by hand: Download the new zip, extract it, and copy its files over your existing folder. Then click the reload arrow on the extension in <code>chrome://extensions</code>.</p>
   </section>
   <footer>Works in Google Chrome and Microsoft Edge.</footer>
 </div>

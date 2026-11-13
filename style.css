@@ -40,3 +40,7 @@ footer { font-size: 13px; color: var(--muted); }
 .byline { margin: 0 0 4px; font-size: 14px; color: var(--muted); }
 .byline a { color: var(--accent); text-decoration: none; }
 .byline a:hover { text-decoration: underline; }
+
+.cmdline { white-space: pre-wrap; word-break: break-all; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; font: 12px/1.5 'JetBrains Mono', monospace; }
+.btn.small { padding: 4px 12px; font-size: 13px; }
+button.btn { font: inherit; font-weight: 700; cursor: pointer; }

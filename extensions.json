@@ -1,0 +1,9 @@
+{
+  "extensions": [
+    "contact-center-guard",
+    "nextiva-email-picker-blank",
+    "ncc-token-grabber",
+    "row-id-copier",
+    "journeys-time-entry"
+  ]
+}

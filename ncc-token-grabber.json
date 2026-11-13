@@ -1,0 +1,10 @@
+{
+  "id": "ncc-token-grabber",
+  "title": "NCC Token Grabber",
+  "match": "NCC Token Grabber",
+  "version": "1.0.0",
+  "zip": "ncc-token-grabber-1.0.0.zip",
+  "folder": "ncc-token-grabber",
+  "page": "ncc-token-grabber.html",
+  "selfReload": false
+}

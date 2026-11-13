@@ -1,0 +1,10 @@
+{
+  "id": "row-id-copier",
+  "title": "Row ID Copier",
+  "match": "Row ID Copier",
+  "version": "1.0.0",
+  "zip": "row-id-copier-1.0.0.zip",
+  "folder": "row-id-copier",
+  "page": "row-id-copier.html",
+  "selfReload": false
+}

@@ -1,0 +1,10 @@
+{
+  "id": "contact-center-guard",
+  "title": "Contact Center Guard",
+  "match": "Contact Center Guard",
+  "version": "1.6",
+  "zip": "contact-center-guard-1.6.zip",
+  "folder": "contact-center-guard",
+  "page": "contact-center-guard.html",
+  "selfReload": false
+}

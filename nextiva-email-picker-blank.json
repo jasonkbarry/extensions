@@ -1,0 +1,10 @@
+{
+  "id": "nextiva-email-picker-blank",
+  "title": "Nextiva Login Email Picker",
+  "match": "Nextiva Login Email Picker",
+  "version": "1.3.1",
+  "zip": "nextiva-email-picker-blank-1.3.1.zip",
+  "folder": "nextiva-email-picker-blank",
+  "page": "email-picker.html",
+  "selfReload": false
+}

@@ -14,8 +14,19 @@
     <div class="eyebrow">Chrome extensions</div>
     <h1>Nextiva Extensions</h1>
     <p class="byline">Jason Barry · <a href="mailto:jason.barry@nextiva.com">jason.barry@nextiva.com</a></p>
-    <p class="lede">Chrome extensions for the Nextiva Contact Center. Download one, then follow its install steps.</p>
+    <p class="lede">Chrome extensions for the Nextiva Contact Center. Use the installer to set up or update them, or open an extension for its install steps.</p>
   </header>
+  <div class="card allcard">
+    <div class="meta">
+      <h3>Install or update everything</h3>
+      <p>One step for all the extensions below (Windows). Press <strong>Win+R</strong>, paste this, and press <strong>Enter</strong>, or download the zip and run the <code>.cmd</code> inside. It updates the ones you have, wherever they're installed, and sets up any new ones.</p>
+      <pre class="cmdline" id="cmd-all">powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$x=&#x27;all&#x27;; irm https://jasonkbarry.github.io/extensions/install.txt | iex&quot;</pre>
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('cmd-all').textContent);this.textContent='Copied';">Copy command</button>
+      <a class="btn ghost" href="Install-AllNextivaExtensions.zip" download>Installer zip</a>
+    </div>
+  </div>
   <div class="card">
     <div class="meta">
       <h3>Contact Center Guard</h3>
@@ -23,7 +34,7 @@
       <span class="file">Version 1.6</span>
     </div>
     <div class="btns">
-      <a class="btn" href="contact-center-guard-1.6.zip" download>Download</a>
+      <a class="btn" href="Install-ContactCenterGuard.zip" download>Installer</a>
       <a class="btn ghost" href="contact-center-guard.html">Install steps</a>
     </div>
   </div>
@@ -34,7 +45,7 @@
       <span class="file">Version 1.3.1</span>
     </div>
     <div class="btns">
-      <a class="btn" href="nextiva-email-picker-blank-1.3.1.zip" download>Download</a>
+      <a class="btn" href="Install-EmailPicker.zip" download>Installer</a>
       <a class="btn ghost" href="email-picker.html">Install steps</a>
     </div>
   </div>
@@ -45,7 +56,7 @@
       <span class="file">Version 1.0.0</span>
     </div>
     <div class="btns">
-      <a class="btn" href="ncc-token-grabber-1.0.0.zip" download>Download</a>
+      <a class="btn" href="Install-NCCTokenGrabber.zip" download>Installer</a>
       <a class="btn ghost" href="ncc-token-grabber.html">Install steps</a>
     </div>
   </div>
@@ -56,7 +67,7 @@
       <span class="file">Version 1.0.0</span>
     </div>
     <div class="btns">
-      <a class="btn" href="row-id-copier-1.0.0.zip" download>Download</a>
+      <a class="btn" href="Install-RowIDCopier.zip" download>Installer</a>
       <a class="btn ghost" href="row-id-copier.html">Install steps</a>
     </div>
   </div>
