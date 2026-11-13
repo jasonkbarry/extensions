@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="style.css">
 <style>
+  .cmdline { white-space: pre-wrap; word-break: break-all; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; font: 12px/1.5 'JetBrains Mono', monospace; }
+  .btn.small { padding: 4px 12px; font-size: 13px; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; }
@@ -27,7 +29,7 @@
   <div class="card">
     <div class="meta"><span class="file">journeys-time-entry-2.6.zip · 50 KB</span></div>
     <div class="btns">
-      <a class="btn" href="Install-JourneysTimeEntry.cmd" download>Installer (Windows)</a>
+      <a class="btn" href="Install-JourneysTimeEntry.zip" download>Installer (Windows)</a>
       <a class="btn ghost" href="journeys-time-entry-2.6.zip" download>Zip</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
@@ -36,9 +38,12 @@
   <section>
     <h2>Install or update with the installer (Windows)</h2>
     <ol class="steps">
-      <li><div>Download <a href="Install-JourneysTimeEntry.cmd" download>Install-JourneysTimeEntry.cmd</a> and double-click it. If Windows warns you, click <strong>More info → Run anyway</strong>.</div></li>
+      <li><div><strong>Option A:</strong> press <strong>Win+R</strong>, paste this line, and press <strong>Enter</strong>:
+        <pre class="cmdline" id="oneliner">powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;irm https://jasonkbarry.github.io/extensions/install-journeys-time-entry.txt | iex&quot;</pre>
+        <button class="btn ghost small" onclick="navigator.clipboard.writeText(document.getElementById('oneliner').textContent);this.textContent='Copied';">Copy</button>
+        <br><strong>Option B:</strong> download <a href="Install-JourneysTimeEntry.zip" download>Install-JourneysTimeEntry.zip</a>, right-click it and choose <strong>Extract All</strong>, then double-click <code>Install-JourneysTimeEntry.cmd</code>. If Windows warns you, click <strong>More info → Run anyway</strong>.</div></li>
       <li><div><strong>First time:</strong> it installs to <code>%LOCALAPPDATA%\Nextiva Extensions\journeys-time-entry</code>, copies that path to your clipboard, and opens <code>chrome://extensions</code>. Turn on <strong>Developer mode</strong> and click <strong>Load unpacked</strong>. In the folder window, click the address bar, press <strong>Ctrl+V</strong> then <strong>Enter</strong>, and click <strong>Select Folder</strong>. Pin <strong>Journeys Time Entry</strong> from the puzzle-piece menu.</div></li>
-      <li><div><strong>Updates:</strong> run the same file again. It finds where the extension is installed in any Chrome or Edge profile, even a folder you chose yourself, and copies the new version there. Your boards and settings are kept, and the extension <strong>reloads itself</strong> within about a minute.</div></li>
+      <li><div><strong>Updates:</strong> run it again (either option). It finds where the extension is installed in any Chrome or Edge profile, even a folder you chose yourself, and copies the new version there. Your boards and settings are kept, and the extension <strong>reloads itself</strong> within about a minute.</div></li>
     </ol>
     <p class="note">A blue bar in the panel tells you when a new version is out, and <strong>⚙ → Check for updates</strong> checks right away. Updating from 2.5 or earlier? After the installer runs, click the extension's reload arrow in <code>chrome://extensions</code> once. From 2.6 on, it reloads itself. Requires Chrome or Edge 116 or newer, and you must be signed in to <code>onboarding.nextiva.com</code>.</p>
   </section>
@@ -142,7 +147,7 @@
 
   <section>
     <h2>Updating</h2>
-    <p class="note">Run the installer again. To update by hand instead, copy the new zip's files over your <code>journeys-time-entry</code> folder, keeping the folder name, and click the reload arrow in <code>chrome://extensions</code>. Full documentation is in <code>README.html</code> inside the folder.</p>
+    <p class="note">Run the installer again (Win+R command or the zip). To update by hand instead, copy the new zip's files over your <code>journeys-time-entry</code> folder, keeping the folder name, and click the reload arrow in <code>chrome://extensions</code>. Full documentation is in <code>README.html</code> inside the folder.</p>
     <p class="note"><strong>Coming from 1.8 or earlier?</strong> Also update the Apps Script: paste in the new <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> (version 5), save, and use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Your <code>/exec</code> URL stays the same. If you were on 1.7 or earlier, also fill in <strong>Sheet link</strong> in ⚙.</p>
   </section>
   <footer>Works in Google Chrome and Microsoft Edge. All settings stay in your own Chrome profile.</footer>

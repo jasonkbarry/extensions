@@ -3,8 +3,6 @@ title Journeys Time Entry installer
 rem Double-click to install or update the Journeys Time Entry Chrome/Edge extension.
 rem The PowerShell below is run from this same file (everything after the #__PS__ line).
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$f='%~f0'; $s=[IO.File]::ReadAllText($f); $i=$s.LastIndexOf('#__'+'PS__'); Invoke-Expression $s.Substring($i)"
-echo.
-pause
 exit /b
 
 #__PS__
@@ -95,3 +93,5 @@ try {
   Say ('  Install failed: ' + $_.Exception.Message) 'Red'
   Say ('  You can also download the zip from ' + $Site + '/journeys-time-entry.html') 'Red'
 }
+Say ''
+[void](Read-Host '  Press Enter to close')
