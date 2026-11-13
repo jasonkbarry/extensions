@@ -20,25 +20,35 @@
 <div class="wrap">
   <a class="crumb" href="./">← All extensions</a>
   <header>
-    <div class="eyebrow">Chrome extension · v2.5</div>
+    <div class="eyebrow">Chrome extension · v2.6</div>
     <h1>Journeys Time Entry</h1>
     <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. It opens in Chrome's side panel, shows your billable and capacity percentages, and keeps your Burn Down Record sheet in step with Journeys.</p>
   </header>
   <div class="card">
-    <div class="meta"><span class="file">journeys-time-entry-2.5.zip · 49 KB</span></div>
+    <div class="meta"><span class="file">journeys-time-entry-2.6.zip · 50 KB</span></div>
     <div class="btns">
-      <a class="btn" href="journeys-time-entry-2.5.zip" download>Download</a>
+      <a class="btn" href="Install-JourneysTimeEntry.cmd" download>Installer (Windows)</a>
+      <a class="btn ghost" href="journeys-time-entry-2.6.zip" download>Zip</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
   </div>
 
   <section>
-    <h2>Install</h2>
+    <h2>Install or update with the installer (Windows)</h2>
     <ol class="steps">
-      <li><div>Download the zip, then right-click it and choose <strong>Extract All</strong>. Move the extracted <code>journeys-time-entry</code> folder somewhere it can stay, such as Documents. Chrome keeps loading it from there.</div></li>
-      <li><div>In Chrome, go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</div></li>
-      <li><div>Click <strong>Load unpacked</strong> and choose the <code>journeys-time-entry</code> folder.</div></li>
-      <li><div>Pin <strong>Journeys Time Entry</strong> from the puzzle-piece menu. Clicking it opens the extension in Chrome's <strong>side panel</strong>, which stays open while you switch tabs. Make sure you're signed in to <code>onboarding.nextiva.com</code> in Chrome. Requires Chrome 116 or newer.</div></li>
+      <li><div>Download <a href="Install-JourneysTimeEntry.cmd" download>Install-JourneysTimeEntry.cmd</a> and double-click it. If Windows warns you, click <strong>More info → Run anyway</strong>.</div></li>
+      <li><div><strong>First time:</strong> it installs to <code>%LOCALAPPDATA%\Nextiva Extensions\journeys-time-entry</code>, copies that path to your clipboard, and opens <code>chrome://extensions</code>. Turn on <strong>Developer mode</strong> and click <strong>Load unpacked</strong>. In the folder window, click the address bar, press <strong>Ctrl+V</strong> then <strong>Enter</strong>, and click <strong>Select Folder</strong>. Pin <strong>Journeys Time Entry</strong> from the puzzle-piece menu.</div></li>
+      <li><div><strong>Updates:</strong> run the same file again. It finds where the extension is installed in any Chrome or Edge profile, even a folder you chose yourself, and copies the new version there. Your boards and settings are kept, and the extension <strong>reloads itself</strong> within about a minute.</div></li>
+    </ol>
+    <p class="note">A blue bar in the panel tells you when a new version is out, and <strong>⚙ → Check for updates</strong> checks right away. Updating from 2.5 or earlier? After the installer runs, click the extension's reload arrow in <code>chrome://extensions</code> once. From 2.6 on, it reloads itself. Requires Chrome or Edge 116 or newer, and you must be signed in to <code>onboarding.nextiva.com</code>.</p>
+  </section>
+
+  <section>
+    <h2>Install manually</h2>
+    <ol class="steps">
+      <li><div>Download the <a href="journeys-time-entry-2.6.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
+      <li><div>Go to <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, click <strong>Load unpacked</strong>, and choose the folder.</div></li>
+      <li><div>Pin <strong>Journeys Time Entry</strong>. Clicking it opens the extension in the <strong>side panel</strong>, which stays open while you switch tabs.</div></li>
     </ol>
   </section>
 
@@ -132,7 +142,7 @@
 
   <section>
     <h2>Updating</h2>
-    <p class="note">Download the new zip, extract it, and copy its files over your existing <code>journeys-time-entry</code> folder. Keep the folder name so your boards and settings are kept. Then click the reload arrow on the extension in <code>chrome://extensions</code>. Full documentation is in <code>README.html</code> inside the folder.</p>
+    <p class="note">Run the installer again. To update by hand instead, copy the new zip's files over your <code>journeys-time-entry</code> folder, keeping the folder name, and click the reload arrow in <code>chrome://extensions</code>. Full documentation is in <code>README.html</code> inside the folder.</p>
     <p class="note"><strong>Coming from 1.8 or earlier?</strong> Also update the Apps Script: paste in the new <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> (version 5), save, and use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Your <code>/exec</code> URL stays the same. If you were on 1.7 or earlier, also fill in <strong>Sheet link</strong> in ⚙.</p>
   </section>
   <footer>Works in Google Chrome and Microsoft Edge. All settings stay in your own Chrome profile.</footer>
