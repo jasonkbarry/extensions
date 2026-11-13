@@ -20,14 +20,14 @@
 <div class="wrap">
   <a class="crumb" href="./">← All extensions</a>
   <header>
-    <div class="eyebrow">Chrome extension · v1.7</div>
+    <div class="eyebrow">Chrome extension · v1.8</div>
     <h1>Journeys Time Entry</h1>
     <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. You can also copy billable entries to the Burn Down Record sheet.</p>
   </header>
   <div class="card">
-    <div class="meta"><span class="file">journeys-time-entry-1.7.zip · 39 KB</span></div>
+    <div class="meta"><span class="file">journeys-time-entry-1.8.zip · 40 KB</span></div>
     <div class="btns">
-      <a class="btn" href="journeys-time-entry-1.7.zip" download>Download</a>
+      <a class="btn" href="journeys-time-entry-1.8.zip" download>Download</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
   </div>
@@ -80,15 +80,14 @@
     <h3>Create the web app (one time)</h3>
     <ol class="steps">
       <li><div>Go to <code>script.google.com</code>, signed in with the account that can <strong>edit</strong> the Burn Down Record, and click <strong>New project</strong>.</div></li>
-      <li><div>Press <strong>Ctrl+A</strong> and <strong>Delete</strong> to remove the starter <code>myFunction</code> code, so the editor is completely empty. Paste in all of <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and save.</div></li>
-      <li><div>Set <code>SHEET_ID</code> at the top to the long ID in the sheet's URL (<code>docs.google.com/spreadsheets/d/<strong>SHEET_ID</strong>/edit</code>), then save.</div></li>
+      <li><div>Press <strong>Ctrl+A</strong> and <strong>Delete</strong> to remove the starter <code>myFunction</code> code, so the editor is completely empty. Paste in all of <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and save. You don't need to edit the script.</div></li>
       <li><div>Click <strong>Deploy → New deployment</strong>. Click the gear icon, choose <strong>Web app</strong>, and set <strong>Execute as: Me</strong> and <strong>Who has access: Only myself</strong>. Click <strong>Deploy</strong>, then <strong>Authorize access</strong>. If you see "Google hasn't verified this app", click <strong>Advanced → Go to (project)</strong>, then <strong>Allow</strong>.</div></li>
-      <li><div>Copy the <strong>Web app URL</strong>, which ends in <code>/exec</code>. It's also under <strong>Deploy → Manage deployments</strong>. Open it once in Chrome; you should see <code>{"ok":true,…}</code>.</div></li>
+      <li><div>Copy the <strong>Web app URL</strong>, which ends in <code>/exec</code>. It's also under <strong>Deploy → Manage deployments</strong>. Open it once in Chrome. You should see <code>{"ok":false,"error":"No sheet set…"}</code>, which means the web app is working.</div></li>
     </ol>
 
     <h3>Connect the extension</h3>
     <ol class="steps">
-      <li><div>Click <strong>⚙</strong>, go to <strong>Burn Down sheet</strong>, and paste the URL. Enter your <strong>Tab name</strong> exactly as it appears in the sheet. Click <strong>Save &amp; test</strong>.</div></li>
+      <li><div>Click <strong>⚙</strong> and go to <strong>Burn Down sheet</strong>. Paste the Burn Down Record's address into <strong>Sheet link</strong>, and the <code>/exec</code> URL into <strong>Web app URL</strong>. Enter your <strong>Tab name</strong> exactly as it appears in the sheet. Click <strong>Save &amp; test</strong>.</div></li>
       <li><div>For each customer, fill in <strong>Sheet customer name</strong>, <strong>Account #</strong>, <strong>CSP level</strong>, <strong>Allotted</strong> and <strong>Bucket</strong>. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
     </ol>
     <p class="note">If a sheet write fails, your Journeys entries are still saved, and the rows wait in a <strong>Retry now</strong> bar. Changing or deleting an existing billable entry doesn't change the sheet; update those rows by hand.</p>
@@ -102,6 +101,8 @@
     <div class="tablewrap"><table>
       <tr><th>Message</th><th>Fix</th></tr>
       <tr><td>Google sign-in needed for the Burn Down web app</td><td>Open the <code>/exec</code> URL in Chrome once. If you're signed in to several Google accounts, make the script's owner your default (first) account.</td></tr>
+      <tr><td>Illegal spreadsheet id or key: PASTE_SHEET_ID_HERE</td><td>Your Apps Script is from v1.7. Paste in the current <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Fill in <strong>Sheet link</strong> in ⚙.</td></tr>
+      <tr><td>Can't open that sheet</td><td>Check <strong>Sheet link</strong> in ⚙, and that the Google account that owns the web app can edit the sheet.</td></tr>
       <tr><td>Tab not found</td><td>The Tab name in ⚙ must match the sheet tab exactly.</td></tr>
       <tr><td>Unknown request after an update</td><td>Click the reload arrow on the extension in <code>chrome://extensions</code>.</td></tr>
       <tr><td>Not signed in to Journeys</td><td>Sign in at onboarding.nextiva.com, then try again.</td></tr>
@@ -110,7 +111,7 @@
 
   <section>
     <h2>Updating</h2>
-    <p class="note">Download the new zip, extract it, and copy its files over your existing <code>journeys-time-entry</code> folder. Keep the folder name so your boards and settings are kept. Then click the reload arrow on the extension in <code>chrome://extensions</code>. Full documentation is in <code>README.md</code> inside the folder.</p>
+    <p class="note">Download the new zip, extract it, and copy its files over your existing <code>journeys-time-entry</code> folder. Keep the folder name so your boards and settings are kept. Then click the reload arrow on the extension in <code>chrome://extensions</code>. Full documentation is in <code>README.html</code> inside the folder.</p>
   </section>
   <footer>Works in Google Chrome and Microsoft Edge. All settings stay in your own Chrome profile.</footer>
 </div>

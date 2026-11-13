@@ -1,7 +1,8 @@
 /**
  * Journeys Time Entry → Burn Down Record
  * Paste this into a NEW Apps Script project (script.google.com, signed in with the
- * Google account that can edit the Burn Down Record sheet), then:
+ * Google account that can edit the Burn Down Record sheet). No edits are needed:
+ * the sheet link and your tab name are set in the extension's ⚙ settings. Then:
  *   Deploy → New deployment → Type: Web app
  *     Execute as: Me
  *     Who has access: Only myself
@@ -11,12 +12,13 @@
  * Columns written: B Customer, C Account #, D Date, E Hours, G CSP Level, H Allotted, I Bucket.
  * Columns A (Burn Down ID), J (Total), K–M are left alone (pre-filled / formulas).
  */
-const SHEET_ID = 'PASTE_SHEET_ID_HERE';   // the long ID in the sheet's URL: docs.google.com/spreadsheets/d/<SHEET_ID>/edit
+const SHEET_ID = '';   // optional fallback; normally the extension sends the sheet ID (⚙ → Sheet link)
 const DEFAULT_TAB = '';                    // optional; the extension sends your tab name
 const TOKEN = '';   // optional: set a secret here AND in the extension settings
 
 function doGet(e) {
-  return handle_({ action: 'ping', tab: (e && e.parameter && e.parameter.tab) || DEFAULT_TAB, token: e && e.parameter && e.parameter.token });
+  const q = (e && e.parameter) || {};
+  return handle_({ action: 'ping', sheetId: q.sheetId, tab: q.tab || DEFAULT_TAB, token: q.token });
 }
 
 function doPost(e) {
@@ -30,7 +32,12 @@ function handle_(req) {
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    const sh = SpreadsheetApp.openById(SHEET_ID).getSheetByName(req.tab || DEFAULT_TAB);
+    const id = String(req.sheetId || SHEET_ID || '').trim();
+    if (!id) return out_({ ok: false, error: 'No sheet set. Paste the Burn Down sheet link in the extension settings (⚙ → Sheet link).' });
+    let book;
+    try { book = SpreadsheetApp.openById(id); }
+    catch (err) { return out_({ ok: false, error: 'Can\'t open that sheet. Check the Sheet link, and that this Google account can edit it.' }); }
+    const sh = book.getSheetByName(req.tab || DEFAULT_TAB);
     if (!sh) return out_({ ok: false, error: 'Tab not found: ' + (req.tab || DEFAULT_TAB) });
     if (req.action === 'ping') return out_({ ok: true, tab: sh.getName(), nextRow: nextRow_(sh) });
 
