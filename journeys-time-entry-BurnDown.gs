@@ -35,7 +35,9 @@ function handle_(req) {
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    const id = String(req.sheetId || SHEET_ID || '').trim();
+    let id = String(req.sheetId || SHEET_ID || '').trim();
+    const fromUrl = id.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);   // a full sheet address works too
+    if (fromUrl) id = fromUrl[1];
     if (!id) return out_({ ok: false, error: 'No sheet set. Paste the Burn Down sheet link in the extension settings (⚙ → Sheet link).' });
     let book;
     try { book = SpreadsheetApp.openById(id); }

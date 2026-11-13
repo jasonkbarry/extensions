@@ -132,6 +132,7 @@
     <div class="tablewrap"><table>
       <tr><th>Message</th><th>Fix</th></tr>
       <tr><td>Google sign-in needed for the Burn Down web app</td><td>Open the <code>/exec</code> URL in Chrome once. If you're signed in to several Google accounts, make the script's owner your default (first) account.</td></tr>
+      <tr><td>Illegal spreadsheet id or key: https://docs.google.com/…</td><td>Chrome is still running an older copy, and the script has a full address in its <code>SHEET_ID</code> line. Click the reload arrow on the extension in <code>chrome://extensions</code> (⚙ should then show the new version), then paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and redeploy as a <strong>New version</strong>.</td></tr>
       <tr><td>Illegal spreadsheet id or key: PASTE_SHEET_ID_HERE</td><td>Your Apps Script is from v1.7. Paste in the current <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Fill in <strong>Sheet link</strong> in ⚙.</td></tr>
       <tr><td>Your Burn Down Apps Script is out of date</td><td>Sync, deletes and hour changes need script version 5. Paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>.</td></tr>
       <tr><td>Skipped because it had no date</td><td>The entry had no valid date, so no row was written. Re-sync and add it again; if it keeps happening, report it.</td></tr>
