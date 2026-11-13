@@ -1,0 +1,35 @@
+name: Suggest an enhancement
+description: Ideas to make one of the Nextiva extensions better
+title: "[Idea] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: extension
+    attributes:
+      label: Which extension?
+      options:
+        - Journeys Time Entry
+        - Contact Center Guard
+        - Nextiva Login Email Picker
+        - NCC Token Grabber
+        - Row ID Copier
+        - Something new
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like it to do?
+      description: Describe the change or new feature.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would it help?
+      description: What does it save you, or what problem does it fix?
+  - type: input
+    id: version
+    attributes:
+      label: Your version (optional)
+      description: Shown at the bottom of the extension's settings.
