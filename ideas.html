@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Process Ideas</title>
+<meta name="description" content="Share process frustrations and ideas for tools that could fix them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chip { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .toolbar select { margin-left: auto; font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+  #ideas { display: grid; gap: 14px; }
+  .idea { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 10px; }
+  .idea-h { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+  .idea-h h3 { margin: 0; font-size: 18px; flex: 1 1 260px; }
+  .idea-h h3 a { color: inherit; text-decoration: none; }
+  .idea-h h3 a:hover { text-decoration: underline; }
+  .status { font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .05em; padding: 5px 8px; border-radius: 6px; white-space: nowrap; }
+  .s-new { background: #e6f4f7; color: #12606f; } .s-evaluating { background: #fff4d6; color: #7a5600; }
+  .s-planned { background: #e3f6e8; color: #116329; } .s-building { background: #eee6fb; color: #4b2a8a; }
+  .s-done { background: #dff2f2; color: #0a5c5c; } .s-not-now { background: #eceef1; color: #4b5563; }
+  @media (prefers-color-scheme: dark) {
+    .s-new { background: #123842; color: #8fd9e8; } .s-evaluating { background: #3a2f0c; color: #f3cf6a; }
+    .s-planned { background: #12351d; color: #7fdc9a; } .s-building { background: #2b1f4a; color: #c3a9f5; }
+    .s-done { background: #0f3434; color: #7fd6d6; } .s-not-now { background: #262b33; color: #aab2bf; }
+  }
+  .by { font-size: 13px; color: var(--muted); }
+  .field h4 { margin: 0 0 3px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .field .txt { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; }
+  .shots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .shots a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .shots img { display: block; max-width: 220px; max-height: 150px; object-fit: cover; }
+  .eval { border-top: 1px dashed var(--line); padding-top: 10px; }
+  .eval-btn { font: inherit; font-size: 14px; font-weight: 600; background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0; }
+  .eval-list { display: grid; gap: 10px; margin-top: 8px; }
+  .eval-note { background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+  .eval-note .by { margin-bottom: 4px; }
+  .foot { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  .empty, .err { color: var(--muted); font-size: 15px; }
+  .err { color: #b42318; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="crumb" href="./">← All extensions</a>
+  <header>
+    <div class="eyebrow">Ideas</div>
+    <h1>Process frustrations &amp; ideas</h1>
+    <p class="lede">Tell us what's slow, manual or easy to get wrong, and why it matters. We'll look at whether a tool, extension or automation can fix it, and post our evaluation here.</p>
+  </header>
+
+  <div class="card">
+    <div class="meta">
+      <h3>Share a frustration or idea</h3>
+      <p>Takes a couple of minutes: your name, the date, the frustration, the business case, and optional screenshots (paste with Ctrl+V). You'll need a free GitHub account.</p>
+    </div>
+    <div class="btns"><a class="btn" href="https://github.com/jasonkbarry/extensions/issues/new?template=idea.yml" target="_blank" rel="noopener">Share an idea</a></div>
+  </div>
+
+  <section>
+    <h2>Submitted ideas</h2>
+    <div class="toolbar" id="filters" role="group" aria-label="Filter by status">
+      <button class="chip" data-s="" aria-pressed="true">All</button>
+      <button class="chip" data-s="new" aria-pressed="false">New</button>
+      <button class="chip" data-s="evaluating" aria-pressed="false">Evaluating</button>
+      <button class="chip" data-s="planned" aria-pressed="false">Planned</button>
+      <button class="chip" data-s="building" aria-pressed="false">Building</button>
+      <button class="chip" data-s="done" aria-pressed="false">Done</button>
+      <button class="chip" data-s="not now" aria-pressed="false">Not now</button>
+      <select id="sort" aria-label="Sort">
+        <option value="new">Newest first</option>
+        <option value="votes">Most 👍</option>
+      </select>
+    </div>
+    <div id="ideas" style="margin-top:14px"><p class="empty">Loading ideas…</p></div>
+  </section>
+
+  <section>
+    <h2>How evaluation works</h2>
+    <ul class="list">
+      <li>Every idea starts as <strong>New</strong>. The team adds evaluation notes as comments on the idea in GitHub, covering effort, impact, approach and questions. Those notes appear in its <strong>Evaluation</strong> section here.</li>
+      <li>A status label shows where it stands: New → Evaluating → Planned → Building → Done, or Not now.</li>
+      <li>Agree with an idea? Open it and add a 👍 reaction. "Most 👍" sorts by votes.</li>
+    </ul>
+  </section>
+  <footer>Ideas are stored as GitHub issues in <a href="https://github.com/jasonkbarry/extensions/issues?q=label%3Aidea" target="_blank" rel="noopener">jasonkbarry/extensions</a>, so they're public. Don't include customer data, passwords or other confidential details.</footer>
+</div>
+
+<script>
+const REPO = 'jasonkbarry/extensions';
+const API = 'https://api.github.com/repos/' + REPO;
+const TEAM = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
+let ideas = [], filter = '', sort = 'new';
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtDate = iso => new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+
+// Pull images out of markdown/HTML so they show as thumbnails; return { text, images }
+function splitImages(md) {
+  const images = [];
+  let text = String(md || '')
+    .replace(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g, (_, u) => { images.push(u); return ''; })
+    .replace(/<img[^>]*src="(https?:\/\/[^"]+)"[^>]*>/gi, (_, u) => { images.push(u); return ''; });
+  return { text: text.replace(/\n{3,}/g, '\n\n').trim(), images };
+}
+const safeUrl = u => /^https:\/\/(github\.com|user-images\.githubusercontent\.com|private-user-images\.githubusercontent\.com|[a-z0-9-]+\.githubusercontent\.com)\//i.test(u);
+
+function renderRich(md) {
+  const { text, images } = splitImages(md);
+  const linked = esc(text).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  const shots = images.filter(safeUrl).map(u => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="Screenshot" loading="lazy"></a>`).join('');
+  return (text ? `<div class="txt">${linked}</div>` : '') + (shots ? `<div class="shots">${shots}</div>` : '');
+}
+
+// Issue forms produce "### Label\n\nvalue" blocks
+function parseBody(body) {
+  const out = {};
+  String(body || '').split(/^### /m).slice(1).forEach(block => {
+    const nl = block.indexOf('\n');
+    const label = (nl < 0 ? block : block.slice(0, nl)).trim().toLowerCase();
+    let val = nl < 0 ? '' : block.slice(nl + 1).trim();
+    if (val === '_No response_') val = '';
+    out[label] = val;
+  });
+  const pick = k => Object.keys(out).find(l => l.startsWith(k));
+  return {
+    name: out[pick('your name')] || '',
+    date: out[pick('date')] || '',
+    frustration: out[pick('process frustration')] || '',
+    business: out[pick('business case')] || '',
+    suggestion: out[pick('ideas to try')] || '',
+    screenshots: out[pick('screenshots')] || ''
+  };
+}
+
+const statusOf = issue => {
+  const l = issue.labels.map(x => (typeof x === 'string' ? x : x.name)).find(n => /^status: /i.test(n));
+  if (l) return l.slice(8).toLowerCase();
+  return issue.state === 'closed' ? 'done' : 'new';
+};
+
+function render() {
+  const box = document.getElementById('ideas');
+  let list = ideas.filter(i => !filter || i.status === filter);
+  list.sort((a, b) => sort === 'votes' ? (b.votes - a.votes) || (b.created - a.created) : b.created - a.created);
+  if (!list.length) { box.innerHTML = `<p class="empty">${ideas.length ? 'No ideas with this status yet.' : 'No ideas yet. Be the first to share one.'}</p>`; return; }
+  box.innerHTML = list.map(i => `
+    <article class="idea" data-n="${i.number}">
+      <div class="idea-h">
+        <h3><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title.replace(/^\[idea\]\s*/i, '') || 'Untitled idea')}</a></h3>
+        <span class="status s-${esc(i.status.replace(/\s+/g, '-'))}">${esc(i.status)}</span>
+      </div>
+      <div class="by">${esc(i.f.name || i.author)} · ${esc(i.f.date || fmtDate(i.createdAt))}</div>
+      ${i.f.frustration ? `<div class="field"><h4>Process frustration</h4>${renderRich(i.f.frustration)}</div>` : ''}
+      ${i.f.business ? `<div class="field"><h4>Business case</h4>${renderRich(i.f.business)}</div>` : ''}
+      ${i.f.suggestion ? `<div class="field"><h4>Ideas to try</h4>${renderRich(i.f.suggestion)}</div>` : ''}
+      ${i.f.screenshots ? `<div class="field"><h4>Screenshots</h4>${renderRich(i.f.screenshots)}</div>` : ''}
+      <div class="eval">
+        <button class="eval-btn" data-eval="${i.number}">Evaluation ▸</button>
+        <div class="eval-list" id="eval-${i.number}" hidden></div>
+      </div>
+      <div class="foot"><span>👍 ${i.votes}</span><span>💬 ${i.comments}</span><a href="${esc(i.url)}" target="_blank" rel="noopener">Open on GitHub to vote or comment</a></div>
+    </article>`).join('');
+}
+
+async function loadEvaluation(n, btn) {
+  const box = document.getElementById('eval-' + n);
+  if (!box.hidden) { box.hidden = true; btn.textContent = btn.textContent.replace('▾', '▸'); return; }
+  box.hidden = false; btn.textContent = btn.textContent.replace('▸', '▾');
+  if (box.dataset.loaded) return;
+  box.innerHTML = '<p class="empty">Loading…</p>';
+  try {
+    const r = await fetch(`${API}/issues/${n}/comments?per_page=100`, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error(r.status === 403 ? 'GitHub is limiting requests right now. Try again in a few minutes.' : 'HTTP ' + r.status);
+    const notes = (await r.json()).filter(c => TEAM.has(c.author_association));
+    box.innerHTML = notes.length ? notes.map(c => `<div class="eval-note"><div class="by">${esc(c.user.login)} · ${esc(fmtDate(c.created_at))}</div>${renderRich(c.body)}</div>`).join('')
+      : '<p class="empty">No evaluation notes yet.</p>';
+    box.dataset.loaded = '1';
+  } catch (e) { box.innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+}
+
+async function load() {
+  const box = document.getElementById('ideas');
+  try {
+    const r = await fetch(`${API}/issues?labels=idea&state=all&per_page=100`, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error(r.status === 403 ? 'GitHub is limiting requests right now. Try again in a few minutes.' : 'Could not load ideas (HTTP ' + r.status + ').');
+    ideas = (await r.json()).filter(i => !i.pull_request).map(i => ({
+      number: i.number, title: i.title, url: i.html_url, author: i.user && i.user.login,
+      createdAt: i.created_at, created: Date.parse(i.created_at), comments: i.comments,
+      votes: (i.reactions && i.reactions['+1']) || 0, status: statusOf(i), f: parseBody(i.body)
+    }));
+    render();
+  } catch (e) { box.innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+}
+
+document.getElementById('filters').addEventListener('click', e => {
+  const b = e.target.closest('[data-s]'); if (!b) return;
+  filter = b.dataset.s;
+  document.querySelectorAll('#filters [data-s]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  render();
+});
+document.getElementById('sort').addEventListener('change', e => { sort = e.target.value; render(); });
+document.getElementById('ideas').addEventListener('click', e => {
+  const b = e.target.closest('[data-eval]'); if (b) loadEvaluation(b.dataset.eval, b);
+});
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+name: Share a process frustration or idea
+description: Tell us about something slow, manual or error-prone, and we'll see if a tool can fix it
+title: "[Idea] "
+labels: ["idea", "status: new"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing. You don't need a solution, just tell us what gets in the way.
+        The team adds evaluation notes as comments on this idea, and a status label shows where it stands.
+        Everyone's ideas are listed at https://jasonkbarry.github.io/extensions/ideas.html
+  - type: input
+    id: name
+    attributes:
+      label: Your name
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: Today's date (MM/DD/YYYY)
+      placeholder: "11/13/2026"
+    validations:
+      required: true
+  - type: textarea
+    id: frustration
+    attributes:
+      label: Process frustration
+      description: What's slow, repetitive, confusing or easy to get wrong? Where does it happen (which app or screen)?
+    validations:
+      required: true
+  - type: textarea
+    id: business_case
+    attributes:
+      label: Business case
+      description: Why it matters. How often it happens, how long it takes, who's affected, and the cost of mistakes (missed billing, rework, customer impact).
+      placeholder: "e.g. 4 of us spend ~30 min every Wednesday re-keying time; mistakes mean unbilled hours."
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Ideas to try (optional)
+      description: Anything you've thought of, such as an extension, an automation, a report, or a checklist.
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots (optional)
+      description: Click in this box and press Ctrl+V to paste a screenshot (Win+Shift+S takes one), or drag image files in. You can add several.
+      placeholder: "Paste or drag screenshots here"
+  - type: markdown
+    attributes:
+      value: |
+        **Tip:** you can also paste screenshots into any box above.
