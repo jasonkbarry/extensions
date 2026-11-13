@@ -9,16 +9,34 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="style.css">
 <style>
+  form.card { display: grid; gap: 14px; align-items: stretch; }
+  .f { display: grid; gap: 5px; }
+  .f label { font-weight: 700; font-size: 15px; }
+  .f .hint { font-size: 13px; color: var(--muted); }
+  .f input, .f textarea { font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%; }
+  .f textarea { min-height: 96px; resize: vertical; }
+  .f input:focus, .f textarea:focus { outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent); border-color: var(--accent); }
+  .row2 { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .drop { border: 2px dashed var(--line); border-radius: 12px; padding: 16px; text-align: center; color: var(--muted); font-size: 14px; cursor: pointer; }
+  .drop.over { border-color: var(--accent); background: var(--chip); }
+  .thumbs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .thumb { position: relative; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .thumb img { display: block; height: 90px; max-width: 160px; object-fit: cover; }
+  .thumb button { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border-radius: 50%; border: 0; background: rgba(0,0,0,.65); color: #fff; cursor: pointer; font-size: 13px; line-height: 22px; padding: 0; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .formfoot { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .msg { font-size: 14px; } .msg.ok { color: #15803d; } .msg.err { color: #b42318; }
+  @media (prefers-color-scheme: dark) { .msg.ok { color: #6ee7a0; } .msg.err { color: #ff8a80; } }
   .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .chip { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
   .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
   .toolbar select { margin-left: auto; font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
-  #ideas { display: grid; gap: 14px; }
+  #ideas { display: grid; gap: 14px; margin-top: 14px; }
   .idea { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 10px; }
-  .idea-h { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
-  .idea-h h3 { margin: 0; font-size: 18px; flex: 1 1 260px; }
-  .idea-h h3 a { color: inherit; text-decoration: none; }
-  .idea-h h3 a:hover { text-decoration: underline; }
+  .idea-h { display: flex; gap: 10px; align-items: flex-start; }
+  .idea-h .by { flex: 1; font-size: 14px; color: var(--muted); }
+  .idea-h .by b { color: var(--ink); font-size: 16px; }
   .status { font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .05em; padding: 5px 8px; border-radius: 6px; white-space: nowrap; }
   .s-new { background: #e6f4f7; color: #12606f; } .s-evaluating { background: #fff4d6; color: #7a5600; }
   .s-planned { background: #e3f6e8; color: #116329; } .s-building { background: #eee6fb; color: #4b2a8a; }
@@ -28,20 +46,19 @@
     .s-planned { background: #12351d; color: #7fdc9a; } .s-building { background: #2b1f4a; color: #c3a9f5; }
     .s-done { background: #0f3434; color: #7fd6d6; } .s-not-now { background: #262b33; color: #aab2bf; }
   }
-  .by { font-size: 13px; color: var(--muted); }
   .field h4 { margin: 0 0 3px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
   .field .txt { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; }
-  .shots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-  .shots a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .shots img { display: block; max-width: 220px; max-height: 150px; object-fit: cover; }
-  .eval { border-top: 1px dashed var(--line); padding-top: 10px; }
-  .eval-btn { font: inherit; font-size: 14px; font-weight: 600; background: none; border: 0; color: var(--accent); cursor: pointer; padding: 0; }
-  .eval-list { display: grid; gap: 10px; margin-top: 8px; }
-  .eval-note { background: var(--chip); border-radius: 10px; padding: 10px 12px; }
-  .eval-note .by { margin-bottom: 4px; }
-  .foot { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
-  .empty, .err { color: var(--muted); font-size: 15px; }
-  .err { color: #b42318; }
+  .shots { display: flex; flex-wrap: wrap; gap: 8px; }
+  .shot { width: 200px; height: 130px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--chip); display: grid; place-items: center; font-size: 12px; color: var(--muted); cursor: zoom-in; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .eval { background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+  .foot { display: flex; gap: 14px; align-items: center; font-size: 13px; color: var(--muted); }
+  .vote { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+  .vote[disabled] { opacity: .6; cursor: default; }
+  .empty, .err { color: var(--muted); font-size: 15px; } .err { color: #b42318; }
+  dialog { border: 0; padding: 0; background: transparent; max-width: 95vw; max-height: 95vh; }
+  dialog img { max-width: 95vw; max-height: 90vh; border-radius: 10px; display: block; }
+  dialog::backdrop { background: rgba(0,0,0,.75); }
 </style>
 </head>
 <body>
@@ -50,16 +67,41 @@
   <header>
     <div class="eyebrow">Ideas</div>
     <h1>Process frustrations &amp; ideas</h1>
-    <p class="lede">Tell us what's slow, manual or easy to get wrong, and why it matters. We'll look at whether a tool, extension or automation can fix it, and post our evaluation here.</p>
+    <p class="lede">Tell us what's slow, manual or easy to get wrong, and why it matters. We'll look at whether a tool, extension or automation can fix it, and post our evaluation here. No sign-in needed.</p>
   </header>
 
-  <div class="card">
-    <div class="meta">
-      <h3>Share a frustration or idea</h3>
-      <p>Takes a couple of minutes: your name, the date, the frustration, the business case, and optional screenshots (paste with Ctrl+V). You'll need a free GitHub account.</p>
+  <form class="card" id="ideaForm" autocomplete="on" novalidate>
+    <h2 style="margin:0">Share a frustration or idea</h2>
+    <div class="row2">
+      <div class="f"><label for="name">Your name</label><input id="name" name="name" required maxlength="100" autocomplete="name"></div>
+      <div class="f"><label for="date">Date</label><input id="date" name="date" type="date" required></div>
     </div>
-    <div class="btns"><a class="btn" href="https://github.com/jasonkbarry/extensions/issues/new?template=idea.yml" target="_blank" rel="noopener">Share an idea</a></div>
-  </div>
+    <div class="f">
+      <label for="frustration">Process frustration</label>
+      <span class="hint">What's slow, repetitive, confusing or easy to get wrong? Where does it happen (which app or screen)?</span>
+      <textarea id="frustration" required maxlength="5000"></textarea>
+    </div>
+    <div class="f">
+      <label for="business">Business case</label>
+      <span class="hint">Why it matters: how often it happens, how long it takes, who's affected, and the cost of mistakes (missed billing, rework, customer impact).</span>
+      <textarea id="business" required maxlength="5000" placeholder="e.g. 4 of us spend ~30 min every Wednesday re-keying time; mistakes mean unbilled hours."></textarea>
+    </div>
+    <div class="f">
+      <label for="ideasTxt">Ideas to try <span class="hint">(optional)</span></label>
+      <textarea id="ideasTxt" maxlength="5000" style="min-height:70px" placeholder="An extension, an automation, a report, a checklist…"></textarea>
+    </div>
+    <div class="f">
+      <label>Screenshots <span class="hint">(optional, up to 6)</span></label>
+      <div class="drop" id="drop" tabindex="0">Press <b>Ctrl+V</b> anywhere on this form to paste a screenshot (<b>Win+Shift+S</b> takes one), drag images here, or <u>click to choose files</u>.</div>
+      <input type="file" id="file" accept="image/*" multiple hidden>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+    <div class="hp" aria-hidden="true"><label>Website <input id="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="formfoot">
+      <button class="btn" type="submit" id="submitBtn">Submit idea</button>
+      <span class="msg" id="formMsg"></span>
+    </div>
+  </form>
 
   <section>
     <h2>Submitted ideas</h2>
@@ -71,143 +113,172 @@
       <button class="chip" data-s="building" aria-pressed="false">Building</button>
       <button class="chip" data-s="done" aria-pressed="false">Done</button>
       <button class="chip" data-s="not now" aria-pressed="false">Not now</button>
-      <select id="sort" aria-label="Sort">
-        <option value="new">Newest first</option>
-        <option value="votes">Most 👍</option>
-      </select>
+      <select id="sort" aria-label="Sort"><option value="new">Newest first</option><option value="votes">Most 👍</option></select>
     </div>
-    <div id="ideas" style="margin-top:14px"><p class="empty">Loading ideas…</p></div>
+    <div id="ideas"><p class="empty">Loading ideas…</p></div>
   </section>
 
   <section>
     <h2>How evaluation works</h2>
     <ul class="list">
-      <li>Every idea starts as <strong>New</strong>. The team adds evaluation notes as comments on the idea in GitHub, covering effort, impact, approach and questions. Those notes appear in its <strong>Evaluation</strong> section here.</li>
-      <li>A status label shows where it stands: New → Evaluating → Planned → Building → Done, or Not now.</li>
-      <li>Agree with an idea? Open it and add a 👍 reaction. "Most 👍" sorts by votes.</li>
+      <li>Every idea starts as <strong>New</strong>. The team adds notes in its <strong>Evaluation</strong>, covering effort, impact, approach and questions, and moves the status along: New → Evaluating → Planned → Building → Done, or Not now.</li>
+      <li>Agree with an idea? Click 👍 on it. "Most 👍" sorts by votes.</li>
     </ul>
   </section>
-  <footer>Ideas are stored as GitHub issues in <a href="https://github.com/jasonkbarry/extensions/issues?q=label%3Aidea" target="_blank" rel="noopener">jasonkbarry/extensions</a>, so they're public. Don't include customer data, passwords or other confidential details.</footer>
+  <footer>Ideas are listed publicly on this page. Please don't include customer data, passwords or other confidential details. Ideas and screenshots are stored in the team's Google Sheet and Drive.</footer>
 </div>
+<dialog id="zoom"><img alt="Screenshot"></dialog>
 
 <script>
-const REPO = 'jasonkbarry/extensions';
-const API = 'https://api.github.com/repos/' + REPO;
-const TEAM = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
-let ideas = [], filter = '', sort = 'new';
+// Web app URL of ideas-backend.gs (Deploy ▸ Web app ▸ /exec)
+const IDEAS_API = '';
 
+const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const fmtDate = iso => new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+const linkify = t => esc(t).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+let ideas = [], filter = '', sort = 'new', images = [];
 
-// Pull images out of markdown/HTML so they show as thumbnails; return { text, images }
-function splitImages(md) {
-  const images = [];
-  let text = String(md || '')
-    .replace(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g, (_, u) => { images.push(u); return ''; })
-    .replace(/<img[^>]*src="(https?:\/\/[^"]+)"[^>]*>/gi, (_, u) => { images.push(u); return ''; });
-  return { text: text.replace(/\n{3,}/g, '\n\n').trim(), images };
-}
-const safeUrl = u => /^https:\/\/(github\.com|user-images\.githubusercontent\.com|private-user-images\.githubusercontent\.com|[a-z0-9-]+\.githubusercontent\.com)\//i.test(u);
-
-function renderRich(md) {
-  const { text, images } = splitImages(md);
-  const linked = esc(text).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-  const shots = images.filter(safeUrl).map(u => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="Screenshot" loading="lazy"></a>`).join('');
-  return (text ? `<div class="txt">${linked}</div>` : '') + (shots ? `<div class="shots">${shots}</div>` : '');
+async function api(method, body, query) {
+  if (!IDEAS_API) throw new Error('The Ideas form isn’t connected yet. The site owner needs to finish setup.');
+  const url = IDEAS_API + (query ? '?' + query : '');
+  const r = await fetch(url, method === 'POST'
+    ? { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }
+    : { method: 'GET' });
+  const data = await r.json().catch(() => null);
+  if (!data) throw new Error('Could not reach the ideas service (HTTP ' + r.status + ').');
+  if (!data.ok) throw new Error(data.error || 'Something went wrong.');
+  return data;
 }
 
-// Issue forms produce "### Label\n\nvalue" blocks
-function parseBody(body) {
-  const out = {};
-  String(body || '').split(/^### /m).slice(1).forEach(block => {
-    const nl = block.indexOf('\n');
-    const label = (nl < 0 ? block : block.slice(0, nl)).trim().toLowerCase();
-    let val = nl < 0 ? '' : block.slice(nl + 1).trim();
-    if (val === '_No response_') val = '';
-    out[label] = val;
+// ---------- form ----------
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+$('#date').value = today();
+$('#name').value = store.get('ideasName') || '';
+
+function shrink(file) {   // resize big screenshots so uploads stay small
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 1800, scale = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const type = file.type === 'image/png' && c.width * c.height < 1200000 ? 'image/png' : 'image/jpeg';
+      const url = c.toDataURL(type, 0.85);
+      URL.revokeObjectURL(img.src);
+      resolve({ type, data: url.split(',')[1], preview: url });
+    };
+    img.onerror = () => reject(new Error('That file isn’t an image.'));
+    img.src = URL.createObjectURL(file);
   });
-  const pick = k => Object.keys(out).find(l => l.startsWith(k));
-  return {
-    name: out[pick('your name')] || '',
-    date: out[pick('date')] || '',
-    frustration: out[pick('process frustration')] || '',
-    business: out[pick('business case')] || '',
-    suggestion: out[pick('ideas to try')] || '',
-    screenshots: out[pick('screenshots')] || ''
-  };
 }
+async function addFiles(files) {
+  for (const f of files) {
+    if (!f.type.startsWith('image/')) continue;
+    if (images.length >= 6) { formMsg('Up to 6 screenshots.', 'err'); break; }
+    try { images.push(await shrink(f)); } catch (e) { formMsg(e.message, 'err'); }
+  }
+  renderThumbs();
+}
+function renderThumbs() {
+  $('#thumbs').innerHTML = images.map((im, i) => `<div class="thumb"><img src="${im.preview}" alt="Screenshot ${i + 1}"><button type="button" data-rm="${i}" aria-label="Remove">✕</button></div>`).join('');
+}
+function formMsg(t, k) { const m = $('#formMsg'); m.textContent = t || ''; m.className = 'msg' + (k ? ' ' + k : ''); }
 
-const statusOf = issue => {
-  const l = issue.labels.map(x => (typeof x === 'string' ? x : x.name)).find(n => /^status: /i.test(n));
-  if (l) return l.slice(8).toLowerCase();
-  return issue.state === 'closed' ? 'done' : 'new';
-};
+$('#ideaForm').addEventListener('paste', e => {
+  const files = [...(e.clipboardData && e.clipboardData.items || [])].filter(i => i.type.startsWith('image/')).map(i => i.getAsFile()).filter(Boolean);
+  if (files.length) { e.preventDefault(); addFiles(files); }
+});
+const drop = $('#drop');
+drop.addEventListener('click', () => $('#file').click());
+drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#file').click(); } });
+$('#file').addEventListener('change', e => { addFiles([...e.target.files]); e.target.value = ''; });
+['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => addFiles([...e.dataTransfer.files]));
+$('#thumbs').addEventListener('click', e => { const i = e.target.dataset.rm; if (i !== undefined) { images.splice(Number(i), 1); renderThumbs(); } });
+
+$('#ideaForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('#name').value.trim(), frustration = $('#frustration').value.trim(), business = $('#business').value.trim();
+  if (!name || !frustration || !business) return formMsg('Please fill in your name, the process frustration and the business case.', 'err');
+  const btn = $('#submitBtn'); btn.disabled = true; formMsg('Sending…');
+  try {
+    const d = $('#date').value;
+    const dateTxt = d ? new Date(d + 'T12:00:00').toLocaleDateString('en-US') : '';
+    const r = await api('POST', { name, date: dateTxt, frustration, business, ideas: $('#ideasTxt').value.trim(), website: $('#website').value,
+      images: images.map(({ type, data }) => ({ type, data })) });
+    store.set('ideasName', name);
+    $('#frustration').value = ''; $('#business').value = ''; $('#ideasTxt').value = ''; images = []; renderThumbs();
+    formMsg(`Thanks, ${name}! Your idea was added (${r.id}).`, 'ok');
+    loadIdeas();
+  } catch (err) { formMsg(err.message, 'err'); }
+  btn.disabled = false;
+});
+
+// ---------- list ----------
+const imgCache = {};
+async function loadShot(el) {
+  const id = el.dataset.img;
+  try {
+    if (!imgCache[id]) { const r = await api('GET', null, 'img=' + encodeURIComponent(id)); imgCache[id] = `data:${r.type};base64,${r.data}`; }
+    el.innerHTML = `<img src="${imgCache[id]}" alt="Screenshot">`;
+  } catch (e) { el.textContent = 'Image unavailable'; }
+}
+const shotObserver = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) { shotObserver.unobserve(en.target); loadShot(en.target); }
+}), { rootMargin: '200px' }) : null;
 
 function render() {
-  const box = document.getElementById('ideas');
-  let list = ideas.filter(i => !filter || i.status === filter);
-  list.sort((a, b) => sort === 'votes' ? (b.votes - a.votes) || (b.created - a.created) : b.created - a.created);
+  const box = $('#ideas');
+  const list = ideas.filter(i => !filter || i.status.toLowerCase() === filter)
+    .sort((a, b) => sort === 'votes' ? (b.votes - a.votes) || (b.t - a.t) : b.t - a.t);
   if (!list.length) { box.innerHTML = `<p class="empty">${ideas.length ? 'No ideas with this status yet.' : 'No ideas yet. Be the first to share one.'}</p>`; return; }
+  const voted = (store.get('ideasVoted') || '').split(',');
   box.innerHTML = list.map(i => `
-    <article class="idea" data-n="${i.number}">
-      <div class="idea-h">
-        <h3><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title.replace(/^\[idea\]\s*/i, '') || 'Untitled idea')}</a></h3>
-        <span class="status s-${esc(i.status.replace(/\s+/g, '-'))}">${esc(i.status)}</span>
-      </div>
-      <div class="by">${esc(i.f.name || i.author)} · ${esc(i.f.date || fmtDate(i.createdAt))}</div>
-      ${i.f.frustration ? `<div class="field"><h4>Process frustration</h4>${renderRich(i.f.frustration)}</div>` : ''}
-      ${i.f.business ? `<div class="field"><h4>Business case</h4>${renderRich(i.f.business)}</div>` : ''}
-      ${i.f.suggestion ? `<div class="field"><h4>Ideas to try</h4>${renderRich(i.f.suggestion)}</div>` : ''}
-      ${i.f.screenshots ? `<div class="field"><h4>Screenshots</h4>${renderRich(i.f.screenshots)}</div>` : ''}
-      <div class="eval">
-        <button class="eval-btn" data-eval="${i.number}">Evaluation ▸</button>
-        <div class="eval-list" id="eval-${i.number}" hidden></div>
-      </div>
-      <div class="foot"><span>👍 ${i.votes}</span><span>💬 ${i.comments}</span><a href="${esc(i.url)}" target="_blank" rel="noopener">Open on GitHub to vote or comment</a></div>
+    <article class="idea">
+      <div class="idea-h"><div class="by"><b>${esc(i.name)}</b> · ${esc(i.date)} · ${esc(i.id)}</div>
+        <span class="status s-${esc(i.status.toLowerCase().replace(/\s+/g, '-'))}">${esc(i.status)}</span></div>
+      <div class="field"><h4>Process frustration</h4><div class="txt">${linkify(i.frustration)}</div></div>
+      <div class="field"><h4>Business case</h4><div class="txt">${linkify(i.business)}</div></div>
+      ${i.ideas ? `<div class="field"><h4>Ideas to try</h4><div class="txt">${linkify(i.ideas)}</div></div>` : ''}
+      ${i.screenshots.length ? `<div class="field"><h4>Screenshots</h4><div class="shots">${i.screenshots.map(s => `<div class="shot" data-img="${esc(s)}">Loading…</div>`).join('')}</div></div>` : ''}
+      <div class="field"><h4>Evaluation</h4>${i.evaluation ? `<div class="eval txt">${linkify(i.evaluation)}</div>` : '<div class="txt" style="color:var(--muted)">Not evaluated yet.</div>'}</div>
+      <div class="foot"><button class="vote" data-vote="${esc(i.id)}" ${voted.includes(i.id) ? 'disabled' : ''}>👍 ${i.votes}</button></div>
     </article>`).join('');
+  box.querySelectorAll('.shot').forEach(el => shotObserver ? shotObserver.observe(el) : loadShot(el));
 }
 
-async function loadEvaluation(n, btn) {
-  const box = document.getElementById('eval-' + n);
-  if (!box.hidden) { box.hidden = true; btn.textContent = btn.textContent.replace('▾', '▸'); return; }
-  box.hidden = false; btn.textContent = btn.textContent.replace('▸', '▾');
-  if (box.dataset.loaded) return;
-  box.innerHTML = '<p class="empty">Loading…</p>';
+async function loadIdeas() {
   try {
-    const r = await fetch(`${API}/issues/${n}/comments?per_page=100`, { headers: { Accept: 'application/vnd.github+json' } });
-    if (!r.ok) throw new Error(r.status === 403 ? 'GitHub is limiting requests right now. Try again in a few minutes.' : 'HTTP ' + r.status);
-    const notes = (await r.json()).filter(c => TEAM.has(c.author_association));
-    box.innerHTML = notes.length ? notes.map(c => `<div class="eval-note"><div class="by">${esc(c.user.login)} · ${esc(fmtDate(c.created_at))}</div>${renderRich(c.body)}</div>`).join('')
-      : '<p class="empty">No evaluation notes yet.</p>';
-    box.dataset.loaded = '1';
-  } catch (e) { box.innerHTML = `<p class="err">${esc(e.message)}</p>`; }
-}
-
-async function load() {
-  const box = document.getElementById('ideas');
-  try {
-    const r = await fetch(`${API}/issues?labels=idea&state=all&per_page=100`, { headers: { Accept: 'application/vnd.github+json' } });
-    if (!r.ok) throw new Error(r.status === 403 ? 'GitHub is limiting requests right now. Try again in a few minutes.' : 'Could not load ideas (HTTP ' + r.status + ').');
-    ideas = (await r.json()).filter(i => !i.pull_request).map(i => ({
-      number: i.number, title: i.title, url: i.html_url, author: i.user && i.user.login,
-      createdAt: i.created_at, created: Date.parse(i.created_at), comments: i.comments,
-      votes: (i.reactions && i.reactions['+1']) || 0, status: statusOf(i), f: parseBody(i.body)
-    }));
+    const r = await api('GET');
+    ideas = r.ideas.map(i => ({ ...i, t: Date.parse(i.submitted) || 0 }));
     render();
-  } catch (e) { box.innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+  } catch (e) { $('#ideas').innerHTML = `<p class="err">${esc(e.message)}</p>`; }
 }
 
-document.getElementById('filters').addEventListener('click', e => {
+$('#filters').addEventListener('click', e => {
   const b = e.target.closest('[data-s]'); if (!b) return;
   filter = b.dataset.s;
   document.querySelectorAll('#filters [data-s]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   render();
 });
-document.getElementById('sort').addEventListener('change', e => { sort = e.target.value; render(); });
-document.getElementById('ideas').addEventListener('click', e => {
-  const b = e.target.closest('[data-eval]'); if (b) loadEvaluation(b.dataset.eval, b);
+$('#sort').addEventListener('change', e => { sort = e.target.value; render(); });
+$('#ideas').addEventListener('click', async e => {
+  const shot = e.target.closest('.shot img');
+  if (shot) { const d = $('#zoom'); d.querySelector('img').src = shot.src; d.showModal(); return; }
+  const v = e.target.closest('[data-vote]'); if (!v) return;
+  v.disabled = true;
+  try {
+    const r = await api('POST', { action: 'vote', id: v.dataset.vote });
+    v.textContent = '👍 ' + r.votes;
+    const idea = ideas.find(x => x.id === v.dataset.vote); if (idea) idea.votes = r.votes;
+    store.set('ideasVoted', ((store.get('ideasVoted') || '') + ',' + v.dataset.vote).replace(/^,/, ''));
+  } catch (err) { v.disabled = false; v.title = err.message; v.textContent = "👍 (try again)"; }
 });
-load();
+$('#zoom').addEventListener('click', () => $('#zoom').close());
+loadIdeas();
 </script>
 </body>
 </html>
