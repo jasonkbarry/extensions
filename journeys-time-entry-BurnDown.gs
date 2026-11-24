@@ -1,12 +1,19 @@
 /**
  * Journeys Time Entry → Burn Down Record
- * Paste this into a NEW Apps Script project (script.google.com, signed in with the
- * Google account that can edit the Burn Down Record sheet). No edits are needed:
- * the sheet link and your tab name are set in the extension's ⚙ settings. Then:
- *   Deploy → New deployment → Type: Web app
- *     Execute as: Me
- *     Who has access: Only myself
- *   Copy the Web app URL into the extension (⚙ → Burn Down sheet).
+ *
+ * TEAM SETUP (recommended): one person deploys this once for the whole team.
+ *   1. script.google.com → New project (signed in with an account that can EDIT the Burn Down Record).
+ *      Delete the starter code, paste this file, save.
+ *   2. Deploy → New deployment → Web app
+ *        Execute as: Me
+ *        Who has access: Anyone within <your Google Workspace domain>   (only signed-in coworkers can use it)
+ *   3. In the extension: ⚙ → Burn Down sheet → paste the sheet link and this Web app URL → Save & test
+ *      → "Copy team setup code" and share the code with the team. Each person pastes it in ⚙ and
+ *      picks their tab; nobody else deploys anything.
+ *   UPDATING: paste the new code, save, Deploy → Manage deployments → ✏ → Version: New version → Deploy.
+ *   Everyone gets the update at once (the URL stays the same).
+ *
+ * PERSONAL SETUP: the same steps, with "Who has access: Only myself", and use your own URL.
  *
  * Writes one row per billable entry to the first row whose Customer Name (column B) is empty.
  * Columns written: B Customer, C Account #, D Date, E Hours, G CSP Level, H Allotted, I Bucket.
@@ -17,7 +24,7 @@
 const SHEET_ID = '';   // optional fallback; normally the extension sends the sheet ID (⚙ → Sheet link)
 const DEFAULT_TAB = '';                    // optional; the extension sends your tab name
 const TOKEN = '';           // optional: set a secret here AND in the extension settings
-const SCRIPT_VERSION = 6;  // 2 = 'list' (Sync); 3 = 'zero' (deletes set hours to 0); 4 = date check + exact-row zero; 5 = 'sethours'; 6 = 'customers'
+const SCRIPT_VERSION = 7;  // 2 'list' · 3 'zero' · 4 date check · 5 'sethours' · 6 'customers' · 7 'tabs' + caller email (team setup)
 
 function doGet(e) {
   const q = (e && e.parameter) || {};
@@ -42,9 +49,13 @@ function handle_(req) {
     let book;
     try { book = SpreadsheetApp.openById(id); }
     catch (err) { return out_({ ok: false, error: 'Can\'t open that sheet. Check the Sheet link, and that this Google account can edit it.' }); }
+    if (req.action === 'tabs') {
+      // Tab names for the extension's tab picker, plus who is calling (works when the web app is shared within the domain)
+      return out_({ ok: true, version: SCRIPT_VERSION, tabs: book.getSheets().map(t => t.getName()), you: caller_() });
+    }
     const sh = book.getSheetByName(req.tab || DEFAULT_TAB);
-    if (!sh) return out_({ ok: false, error: 'Tab not found: ' + (req.tab || DEFAULT_TAB) });
-    if (req.action === 'ping') return out_({ ok: true, version: SCRIPT_VERSION, tab: sh.getName(), nextRow: nextRow_(sh) });
+    if (!sh) return out_({ ok: false, version: SCRIPT_VERSION, error: 'Tab not found: ' + (req.tab || DEFAULT_TAB || '(none)') });
+    if (req.action === 'ping') return out_({ ok: true, version: SCRIPT_VERSION, tab: sh.getName(), nextRow: nextRow_(sh), you: caller_() });
 
     if (req.action === 'zero') {
       // For each {customer, date, hours}: find the matching row and set Hours (E) to 0 — the row itself is kept
@@ -147,6 +158,10 @@ function handle_(req) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function caller_() {
+  try { return Session.getActiveUser().getEmail() || ''; } catch (e) { return ''; }
 }
 
 function norm_(x) { return String(x == null ? '' : x).trim().toLowerCase(); }

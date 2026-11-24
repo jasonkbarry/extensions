@@ -20,15 +20,15 @@
 <div class="wrap">
   <a class="crumb" href="./">← All extensions</a>
   <header>
-    <div class="eyebrow">Chrome extension · v3.3</div>
+    <div class="eyebrow">Chrome extension · v3.4</div>
     <h1>Journeys Time Entry</h1>
     <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. It opens in Chrome's side panel, shows your billable and capacity percentages, and keeps your Burn Down Record sheet in step with Journeys.</p>
   </header>
   <div class="card">
-    <div class="meta"><span class="file">journeys-time-entry-3.3.zip · 57 KB</span></div>
+    <div class="meta"><span class="file">journeys-time-entry-3.4.zip · 60 KB</span></div>
     <div class="btns">
       <a class="btn" href="Install-JourneysTimeEntry.zip" download>Installer (Windows)</a>
-      <a class="btn ghost" href="journeys-time-entry-3.3.zip" download>Zip</a>
+      <a class="btn ghost" href="journeys-time-entry-3.4.zip" download>Zip</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
   </div>
@@ -49,7 +49,7 @@
   <section>
     <h2>Install manually</h2>
     <ol class="steps">
-      <li><div>Download the <a href="journeys-time-entry-3.3.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
+      <li><div>Download the <a href="journeys-time-entry-3.4.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
       <li><div>Go to <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, click <strong>Load unpacked</strong>, and choose the folder.</div></li>
       <li><div>Pin <strong>Journeys Time Entry</strong>. Clicking it opens the extension in the <strong>side panel</strong>, which stays open while you switch tabs.</div></li>
     </ol>
@@ -93,19 +93,22 @@
       <tr><td>A, F, J–M</td><td>Not touched. Burn Down ID, Total and the other formula columns stay as they are.</td></tr>
     </table></div>
 
-    <h3>Create the web app (one time)</h3>
+    <h3>Team members: connect in one step</h3>
     <ol class="steps">
-      <li><div>Go to <code>script.google.com</code>, signed in with the account that can <strong>edit</strong> the Burn Down Record, and click <strong>New project</strong>.</div></li>
-      <li><div>Press <strong>Ctrl+A</strong> and <strong>Delete</strong> to remove the starter <code>myFunction</code> code, so the editor is completely empty. Paste in all of <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and save. You don't need to edit the script.</div></li>
-      <li><div>Click <strong>Deploy → New deployment</strong>. Click the gear icon, choose <strong>Web app</strong>, and set <strong>Execute as: Me</strong> and <strong>Who has access: Only myself</strong>. Click <strong>Deploy</strong>, then <strong>Authorize access</strong>. If you see "Google hasn't verified this app", click <strong>Advanced → Go to (project)</strong>, then <strong>Allow</strong>.</div></li>
-      <li><div>Copy the <strong>Web app URL</strong>, which ends in <code>/exec</code>. It's also under <strong>Deploy → Manage deployments</strong>. Open it once in Chrome. You should see <code>{"ok":false,"error":"No sheet set…"}</code>, which means the web app is working.</div></li>
+      <li><div>Ask your team lead for the <strong>team setup code</strong> (it starts with <code>JTE1:</code>).</div></li>
+      <li><div>Click <strong>⚙</strong>, go to <strong>Burn Down sheet</strong>, paste the code into <strong>Team setup code</strong>, and click <strong>Apply</strong>. Your tab is picked automatically from your work email (jane.smith@ → Jane Smith), or choose it from the <strong>Tab name</strong> dropdown.</div></li>
+      <li><div>Click <strong>Save &amp; test</strong>. For each customer, pick its <strong>Sheet customer name</strong> from the dropdown. The account, CSP level, allotted and bucket fill in. You can also type a new customer. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
     </ol>
+    <p class="note">No script to install. Be signed in to Google in Chrome with your work account, because the team script only answers people in your company's Google Workspace.</p>
 
-    <h3>Connect the extension</h3>
+    <h3>Team lead: set up the shared script (one time)</h3>
     <ol class="steps">
-      <li><div>Click <strong>⚙</strong> and go to <strong>Burn Down sheet</strong>. Paste the Burn Down Record's address into <strong>Sheet link</strong>, and the <code>/exec</code> URL into <strong>Web app URL</strong>. Enter your <strong>Tab name</strong> exactly as it appears in the sheet. Click <strong>Save &amp; test</strong>.</div></li>
-      <li><div>For each customer, fill in <strong>Sheet customer name</strong>, <strong>Account #</strong>, <strong>CSP level</strong>, <strong>Allotted</strong> and <strong>Bucket</strong>. Billable time is blocked until the customer name, account number and CSP level are set. The customer and account boxes suggest customers already in your Burn Down tab; pick one to fill in the rest, or type a new one. New boards are pre-filled when a matching customer is found. Suggestions need script version 6.</div></li>
+      <li><div>Go to <code>script.google.com</code>, signed in with an account that can <strong>edit</strong> the Burn Down Record, and click <strong>New project</strong>. Press <strong>Ctrl+A</strong> and <strong>Delete</strong>, paste in all of <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, and save.</div></li>
+      <li><div>Click <strong>Deploy → New deployment</strong>, then the gear icon → <strong>Web app</strong>. Set <strong>Execute as: Me</strong> and <strong>Who has access: Anyone within</strong> your Google Workspace domain. Click <strong>Deploy</strong>, then <strong>Authorize access</strong>. If you see "Google hasn't verified this app", click <strong>Advanced → Go to (project)</strong>, then <strong>Allow</strong>. Copy the <strong>Web app URL</strong> (ends in <code>/exec</code>).</div></li>
+      <li><div>In the extension, open ⚙ → <strong>Burn Down sheet</strong>. Paste the sheet's address into <strong>Sheet link</strong> and the URL into <strong>Web app URL</strong>, pick your tab, and click <strong>Save &amp; test</strong>.</div></li>
+      <li><div>Click <strong>copy the team setup code</strong> and send it to your team.</div></li>
     </ol>
+    <p class="note">Rows the script writes show the team lead's account in the sheet's edit history. The tab and Burn Down ID still show whose time it is. <strong>Personal setup instead:</strong> follow the same steps with <strong>Who has access: Only myself</strong>, and don't share the code.</p>
     <p class="note">If a sheet write fails, your Journeys entries are still saved, and the change waits in a <strong>Retry now</strong> bar. A row is never written without a valid date.</p>
 
     <h3>Deletes and changes</h3>
@@ -125,7 +128,7 @@
     <p class="note">Every Delete needs a second click, on <strong>Confirm</strong>. Rows set to 0 h are ignored by Sync. Burn Down rows dated in the future can't be added to Journeys; fix those in the sheet.</p>
 
     <h3>Changing the script later</h3>
-    <p class="note">Paste the new code and save. Then go to <strong>Deploy → Manage deployments → ✏ → Version: New version → Deploy</strong>. That keeps the same <code>/exec</code> URL, so nothing changes in the extension. A <em>New deployment</em> would create a new URL, which you'd have to paste into ⚙ again. Optional: set <code>TOKEN</code> in the script, redeploy, and enter the same value in the extension's <strong>Token</strong> field.</p>
+    <p class="note">With the shared team script, only the team lead does this, and everyone gets the change at once. Paste the new code and save. Then go to <strong>Deploy → Manage deployments → ✏ → Version: New version → Deploy</strong>. That keeps the same <code>/exec</code> URL, so nothing changes in the extension. A <em>New deployment</em> would create a new URL, which you'd have to paste into ⚙ again. Optional: set <code>TOKEN</code> in the script, redeploy, and enter the same value in the extension's <strong>Token</strong> field.</p>
   </section>
 
   <section>
@@ -135,7 +138,7 @@
       <tr><td>Google sign-in needed for the Burn Down web app</td><td>Open the <code>/exec</code> URL in Chrome once. If you're signed in to several Google accounts, make the script's owner your default (first) account.</td></tr>
       <tr><td>Illegal spreadsheet id or key: https://docs.google.com/…</td><td>Chrome is still running an older copy, and the script has a full address in its <code>SHEET_ID</code> line. Click the reload arrow on the extension in <code>chrome://extensions</code> (⚙ should then show the new version), then paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and redeploy as a <strong>New version</strong>.</td></tr>
       <tr><td>Illegal spreadsheet id or key: PASTE_SHEET_ID_HERE</td><td>Your Apps Script is from v1.7. Paste in the current <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Fill in <strong>Sheet link</strong> in ⚙.</td></tr>
-      <tr><td>Your Burn Down Apps Script is out of date</td><td>Sync, deletes and hour changes need script version 5; customer suggestions need version 6. Paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>.</td></tr>
+      <tr><td>Your Burn Down Apps Script is out of date</td><td>Sync, deletes and hour changes need script version 5, customer suggestions need 6, and tab detection needs 7. Paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>.</td></tr>
       <tr><td>Skipped because it had no date</td><td>The entry had no valid date, so no row was written. Re-sync and add it again; if it keeps happening, report it.</td></tr>
       <tr><td>Row changed in the sheet; sync again</td><td>Someone edited that row after Sync loaded. Click ↻ on the Sync page and try again.</td></tr>
       <tr><td>Can't open that sheet</td><td>Check <strong>Sheet link</strong> in ⚙, and that the Google account that owns the web app can edit the sheet.</td></tr>
