@@ -1,5 +1,9 @@
 /**
- * Journeys Time Entry → Burn Down Record
+ * ============================================================
+ *  Journeys Time Entry → Burn Down Record
+ *  SCRIPT VERSION 7  (2026-11-24)
+ *  (Save & test in the extension also shows the version your deployment is running.)
+ * ============================================================
  *
  * TEAM SETUP (recommended): one person deploys this once for the whole team.
  *   1. script.google.com → New project (signed in with an account that can EDIT the Burn Down Record).
@@ -24,7 +28,7 @@
 const SHEET_ID = '';   // optional fallback; normally the extension sends the sheet ID (⚙ → Sheet link)
 const DEFAULT_TAB = '';                    // optional; the extension sends your tab name
 const TOKEN = '';           // optional: set a secret here AND in the extension settings
-const SCRIPT_VERSION = 7;  // 2 'list' · 3 'zero' · 4 date check · 5 'sethours' · 6 'customers' · 7 'tabs' + caller email (team setup)
+const SCRIPT_VERSION = 7;  // keep in step with the version in the header above. 2 'list' · 3 'zero' · 4 date check · 5 'sethours' · 6 'customers' · 7 'tabs' + caller email (team setup)
 
 function doGet(e) {
   const q = (e && e.parameter) || {};
