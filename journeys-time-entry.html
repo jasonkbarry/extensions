@@ -20,15 +20,15 @@
 <div class="wrap">
   <a class="crumb" href="./">← All extensions</a>
   <header>
-    <div class="eyebrow">Chrome extension · v3.4</div>
+    <div class="eyebrow">Chrome extension · v3.5</div>
     <h1>Journeys Time Entry</h1>
     <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. It opens in Chrome's side panel, shows your billable and capacity percentages, and keeps your Burn Down Record sheet in step with Journeys.</p>
   </header>
   <div class="card">
-    <div class="meta"><span class="file">journeys-time-entry-3.4.zip · 60 KB</span></div>
+    <div class="meta"><span class="file">journeys-time-entry-3.5.zip · 60 KB</span></div>
     <div class="btns">
       <a class="btn" href="Install-JourneysTimeEntry.zip" download>Installer (Windows)</a>
-      <a class="btn ghost" href="journeys-time-entry-3.4.zip" download>Zip</a>
+      <a class="btn ghost" href="journeys-time-entry-3.5.zip" download>Zip</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
   </div>
@@ -49,7 +49,7 @@
   <section>
     <h2>Install manually</h2>
     <ol class="steps">
-      <li><div>Download the <a href="journeys-time-entry-3.4.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
+      <li><div>Download the <a href="journeys-time-entry-3.5.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
       <li><div>Go to <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, click <strong>Load unpacked</strong>, and choose the folder.</div></li>
       <li><div>Pin <strong>Journeys Time Entry</strong>. Clicking it opens the extension in the <strong>side panel</strong>, which stays open while you switch tabs.</div></li>
     </ol>
@@ -93,15 +93,15 @@
       <tr><td>A, F, J–M</td><td>Not touched. Burn Down ID, Total and the other formula columns stay as they are.</td></tr>
     </table></div>
 
-    <h3>Team members: connect in one step</h3>
+    <h3>Team members: nothing to set up</h3>
     <ol class="steps">
-      <li><div>Ask your team lead for the <strong>team setup code</strong> (it starts with <code>JTE1:</code>).</div></li>
-      <li><div>Click <strong>⚙</strong>, go to <strong>Burn Down sheet</strong>, paste the code into <strong>Team setup code</strong>, and click <strong>Apply</strong>. Your tab is picked automatically from your work email (jane.smith@ → Jane Smith), or choose it from the <strong>Tab name</strong> dropdown.</div></li>
-      <li><div>Click <strong>Save &amp; test</strong>. For each customer, pick its <strong>Sheet customer name</strong> from the dropdown. The account, CSP level, allotted and bucket fill in. You can also type a new customer. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
+      <li><div>The extension comes with the team's shared Burn Down script and sheet built in. Just be signed in to Google in Chrome with your work account.</div></li>
+      <li><div>Your tab is found automatically from your work email (jane.smith@ → <strong>Jane Smith</strong>). To check, open ⚙ → <strong>Burn Down sheet</strong>: it says <em>Using the team Burn Down script</em> and shows your <strong>Tab name</strong>. If it's wrong, pick your tab from the dropdown and click <strong>Save &amp; test</strong>.</div></li>
+      <li><div>For each customer, pick its <strong>Sheet customer name</strong> from the dropdown. The account, CSP level, allotted and bucket fill in. You can also type a new customer. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
     </ol>
-    <p class="note">No script to install. Be signed in to Google in Chrome with your work account, because the team script only answers people in your company's Google Workspace.</p>
+    <p class="note">Already have your own script set up? It keeps working; ⚙ offers <strong>Switch to the team script</strong>. Another team with its own sheet can share a <strong>team setup code</strong> from ⚙ instead.</p>
 
-    <h3>Team lead: set up the shared script (one time)</h3>
+    <h3>Team lead: the shared script (already set up)</h3>
     <ol class="steps">
       <li><div>Go to <code>script.google.com</code>, signed in with an account that can <strong>edit</strong> the Burn Down Record, and click <strong>New project</strong>. Press <strong>Ctrl+A</strong> and <strong>Delete</strong>, paste in all of <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, and save.</div></li>
       <li><div>Click <strong>Deploy → New deployment</strong>, then the gear icon → <strong>Web app</strong>. Set <strong>Execute as: Me</strong> and <strong>Who has access: Anyone within</strong> your Google Workspace domain. Click <strong>Deploy</strong>, then <strong>Authorize access</strong>. If you see "Google hasn't verified this app", click <strong>Advanced → Go to (project)</strong>, then <strong>Allow</strong>. Copy the <strong>Web app URL</strong> (ends in <code>/exec</code>).</div></li>
