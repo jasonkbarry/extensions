@@ -17,7 +17,7 @@
 const SHEET_ID = '';   // optional fallback; normally the extension sends the sheet ID (⚙ → Sheet link)
 const DEFAULT_TAB = '';                    // optional; the extension sends your tab name
 const TOKEN = '';           // optional: set a secret here AND in the extension settings
-const SCRIPT_VERSION = 5;  // 2 = 'list' (Sync); 3 = 'zero' (deletes set hours to 0); 4 = date check + exact-row zero; 5 = 'sethours'
+const SCRIPT_VERSION = 6;  // 2 = 'list' (Sync); 3 = 'zero' (deletes set hours to 0); 4 = date check + exact-row zero; 5 = 'sethours'; 6 = 'customers'
 
 function doGet(e) {
   const q = (e && e.parameter) || {};
@@ -68,6 +68,30 @@ function handle_(req) {
       }
       SpreadsheetApp.flush();
       return out_({ ok: true, version: SCRIPT_VERSION, zeroed });
+    }
+
+    if (req.action === 'customers') {
+      // One entry per customer name in this tab, taken from its most recent row
+      const last = sh.getLastRow();
+      const byName = {};
+      if (last >= 2) {
+        sh.getRange(2, 1, last - 1, 9).getValues().forEach(v => {
+          const name = String(v[1] == null ? '' : v[1]).trim();
+          if (!name) return;
+          const k = norm_(name);
+          const prev = byName[k] || { spellings: {} };
+          prev.spellings[name] = (prev.spellings[name] || 0) + 1;
+          byName[k] = { spellings: prev.spellings, account: String(v[2] == null ? '' : v[2]).trim(), csp: String(v[6] || '').trim(),
+            allotted: v[7] === '' ? '' : Number(v[7]) || 0, bucket: v[8] === '' ? '' : Number(v[8]) || 0 };
+        });
+      }
+      // name = the spelling used most often; account/CSP/hours = the most recent row
+      const customers = Object.keys(byName).map(k => {
+        const e = byName[k];
+        const customer = Object.keys(e.spellings).sort((a, b) => e.spellings[b] - e.spellings[a])[0];
+        return { customer, account: e.account, csp: e.csp, allotted: e.allotted, bucket: e.bucket };
+      }).sort((a, b) => a.customer.localeCompare(b.customer));
+      return out_({ ok: true, version: SCRIPT_VERSION, customers });
     }
 
     if (req.action === 'sethours') {

@@ -20,15 +20,15 @@
 <div class="wrap">
   <a class="crumb" href="./">← All extensions</a>
   <header>
-    <div class="eyebrow">Chrome extension · v3.2</div>
+    <div class="eyebrow">Chrome extension · v3.3</div>
     <h1>Journeys Time Entry</h1>
     <p class="lede">Enter your weekly Nextiva Journeys time from one timesheet grid, with one row per activity and one column per day. It opens in Chrome's side panel, shows your billable and capacity percentages, and keeps your Burn Down Record sheet in step with Journeys.</p>
   </header>
   <div class="card">
-    <div class="meta"><span class="file">journeys-time-entry-3.2.zip · 55 KB</span></div>
+    <div class="meta"><span class="file">journeys-time-entry-3.3.zip · 57 KB</span></div>
     <div class="btns">
       <a class="btn" href="Install-JourneysTimeEntry.zip" download>Installer (Windows)</a>
-      <a class="btn ghost" href="journeys-time-entry-3.2.zip" download>Zip</a>
+      <a class="btn ghost" href="journeys-time-entry-3.3.zip" download>Zip</a>
       <a class="btn ghost" href="journeys-time-entry-BurnDown.gs" download>Apps Script (BurnDown.gs)</a>
     </div>
   </div>
@@ -49,7 +49,7 @@
   <section>
     <h2>Install manually</h2>
     <ol class="steps">
-      <li><div>Download the <a href="journeys-time-entry-3.2.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
+      <li><div>Download the <a href="journeys-time-entry-3.3.zip" download>zip</a> and extract it. Move the <code>journeys-time-entry</code> folder somewhere it can stay; Chrome keeps loading it from there.</div></li>
       <li><div>Go to <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, click <strong>Load unpacked</strong>, and choose the folder.</div></li>
       <li><div>Pin <strong>Journeys Time Entry</strong>. Clicking it opens the extension in the <strong>side panel</strong>, which stays open while you switch tabs.</div></li>
     </ol>
@@ -104,7 +104,7 @@
     <h3>Connect the extension</h3>
     <ol class="steps">
       <li><div>Click <strong>⚙</strong> and go to <strong>Burn Down sheet</strong>. Paste the Burn Down Record's address into <strong>Sheet link</strong>, and the <code>/exec</code> URL into <strong>Web app URL</strong>. Enter your <strong>Tab name</strong> exactly as it appears in the sheet. Click <strong>Save &amp; test</strong>.</div></li>
-      <li><div>For each customer, fill in <strong>Sheet customer name</strong>, <strong>Account #</strong>, <strong>CSP level</strong>, <strong>Allotted</strong> and <strong>Bucket</strong>. Billable time is blocked until the customer name, account number and CSP level are set.</div></li>
+      <li><div>For each customer, fill in <strong>Sheet customer name</strong>, <strong>Account #</strong>, <strong>CSP level</strong>, <strong>Allotted</strong> and <strong>Bucket</strong>. Billable time is blocked until the customer name, account number and CSP level are set. The customer and account boxes suggest customers already in your Burn Down tab; pick one to fill in the rest, or type a new one. New boards are pre-filled when a matching customer is found. Suggestions need script version 6.</div></li>
     </ol>
     <p class="note">If a sheet write fails, your Journeys entries are still saved, and the change waits in a <strong>Retry now</strong> bar. A row is never written without a valid date.</p>
 
@@ -135,7 +135,7 @@
       <tr><td>Google sign-in needed for the Burn Down web app</td><td>Open the <code>/exec</code> URL in Chrome once. If you're signed in to several Google accounts, make the script's owner your default (first) account.</td></tr>
       <tr><td>Illegal spreadsheet id or key: https://docs.google.com/…</td><td>Chrome is still running an older copy, and the script has a full address in its <code>SHEET_ID</code> line. Click the reload arrow on the extension in <code>chrome://extensions</code> (⚙ should then show the new version), then paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a> and redeploy as a <strong>New version</strong>.</td></tr>
       <tr><td>Illegal spreadsheet id or key: PASTE_SHEET_ID_HERE</td><td>Your Apps Script is from v1.7. Paste in the current <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>. Fill in <strong>Sheet link</strong> in ⚙.</td></tr>
-      <tr><td>Your Burn Down Apps Script is out of date</td><td>Sync, deletes and hour changes need script version 5. Paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>.</td></tr>
+      <tr><td>Your Burn Down Apps Script is out of date</td><td>Sync, deletes and hour changes need script version 5; customer suggestions need version 6. Paste in the latest <a href="journeys-time-entry-BurnDown.gs" download>BurnDown.gs</a>, then use <strong>Manage deployments → ✏ → Version: New version → Deploy</strong>.</td></tr>
       <tr><td>Skipped because it had no date</td><td>The entry had no valid date, so no row was written. Re-sync and add it again; if it keeps happening, report it.</td></tr>
       <tr><td>Row changed in the sheet; sync again</td><td>Someone edited that row after Sync loaded. Click ↻ on the Sync page and try again.</td></tr>
       <tr><td>Can't open that sheet</td><td>Check <strong>Sheet link</strong> in ⚙, and that the Google account that owns the web app can edit the sheet.</td></tr>
